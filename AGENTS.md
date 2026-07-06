@@ -83,5 +83,5 @@ npx expo start        # dev server
 - **Never run `npm audit fix --force`** — it may bump React/RN pins and break alignment with Expo SDK 57. Review audit results manually.
 - **Biome v0.3.3** installed — linter, formatter, import organizer
 - **Git Flow means** `develop` is the default branch for day-to-day work; `main` is production releases only
-- **TLC Spec-driven flow** writes specs to `docs/superpowers/specs/` — keep this structure
+- **TLC Spec-driven flow** writes specs to `.specs/features/[feature]/` — spec.md, design.md, tasks.md, validation.md. Commit these files along with implementation code; they are the traceability record for each feature
 - **Unit tests** must be in `__tests__/` or co-located as `*.test.ts` — verify pattern before choosing

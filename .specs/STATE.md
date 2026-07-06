@@ -24,8 +24,12 @@ Project setup complete. Ready for feature development.
 
 ### In-Progress Features
 
-None. Project is at initial setup stage.
+None.
+
+### Completed Features
+
+- **Fase 1 — Estrutura de Navegação e Contexto** (branch `feature/fase-1-navegacao`) — ✅ Ready to merge into develop. 4 tabs (Início, Listas, Produtos, Perfil) with i18n, emoji icons, Home screen with actions, placeholder screens, 7 unit tests passing.
 
 ### Next
 
-Follow `docs/ROADMAP.md` phases in order. Start with Fase 1 — Estrutura de Navegação e Contexto.
+Follow `docs/ROADMAP.md` phases in order. Start with Fase 2 — Catálogo de Produtos.
