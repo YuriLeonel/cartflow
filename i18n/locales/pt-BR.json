@@ -24,5 +24,12 @@
     "expectedPrice": "Preço esperado",
     "currentPrice": "Preço atual",
     "difference": "Diferença"
+  },
+  "tabs": {
+    "home": "Início",
+    "lists": "Listas",
+    "products": "Produtos",
+    "profile": "Perfil",
+    "comingSoon": "Em breve"
   }
 }
