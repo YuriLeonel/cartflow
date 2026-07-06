@@ -94,6 +94,10 @@ This project follows the **TLC Spec-Driven** flow:
 
 See `AGENTS.md` for conventions and workflows.
 
+## Roadmap
+
+See `docs/ROADMAP.md` for the full MVP roadmap and phase dependencies.
+
 ## License
 
 Not set.
