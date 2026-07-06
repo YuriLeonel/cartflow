@@ -1,0 +1,28 @@
+{
+  "app": {
+    "name": "Cartflow"
+  },
+  "common": {
+    "loading": "Carregando...",
+    "error": "Erro",
+    "save": "Salvar",
+    "cancel": "Cancelar",
+    "delete": "Excluir",
+    "edit": "Editar",
+    "search": "Buscar",
+    "confirm": "Confirmar"
+  },
+  "home": {
+    "title": "Cartflow",
+    "subtitle": "Sua lista de compras inteligente",
+    "newCart": "Nova Lista",
+    "myCarts": "Minhas Listas"
+  },
+  "cart": {
+    "total": "Total",
+    "items": "itens",
+    "expectedPrice": "Preço esperado",
+    "currentPrice": "Preço atual",
+    "difference": "Diferença"
+  }
+}

@@ -1,13 +1,16 @@
 {
   "expo": {
-    "name": "cartflow-scaffold",
-    "slug": "cartflow-scaffold",
+    "name": "Cartflow",
+    "slug": "cartflow",
     "version": "1.0.0",
+    "scheme": "cartflow",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
+    "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.cartflow.app"
     },
     "android": {
       "adaptiveIcon": {
@@ -16,10 +19,22 @@
         "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
       },
-      "predictiveBackGestureEnabled": false
+      "package": "com.cartflow.app"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      [
+        "expo-router",
+        {
+          "origin": "https://cartflow.app"
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true,
+      "reactCompiler": true
     }
   }
 }
