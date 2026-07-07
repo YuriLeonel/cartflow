@@ -28,4 +28,4 @@ None. Project is at initial setup stage.
 
 ### Next
 
-Prepare feature specs following TLC spec-driven workflow.
+Follow `docs/ROADMAP.md` phases in order. Start with Fase 1 — Estrutura de Navegação e Contexto.

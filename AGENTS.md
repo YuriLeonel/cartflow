@@ -54,6 +54,10 @@ AGENTS.md is **authoritative** — agents must follow it unless explicitly overr
 - **Animations**: react-native-reanimated 4 + react-native-worklets
 - **Gestures**: react-native-gesture-handler
 
+## Roadmap
+
+The full MVP roadmap is defined in `docs/ROADMAP.md`. Always read it at the start of a session to understand the current phase and next steps. Each feature follows the `ROADMAP.md` phase order.
+
 ## Setup complete
 
 Project already scaffolded. No need to run `create-expo-app` again.
