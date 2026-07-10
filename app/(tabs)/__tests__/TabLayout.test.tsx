@@ -1,11 +1,18 @@
 import { render, waitFor } from '@testing-library/react-native';
+import type React from 'react';
 import TabLayout from '../_layout';
 
 jest.mock('expo-router', () => {
   const capturedScreens: { name: string; title: string }[] = [];
 
-  const Tabs = ({ children }: any) => <>{children}</>;
-  Tabs.Screen = ({ name, options }: any) => {
+  const Tabs = ({ children }: { children: React.ReactNode }) => <>{children}</>;
+  Tabs.Screen = ({
+    name,
+    options,
+  }: {
+    name: string;
+    options?: { title?: string };
+  }) => {
     capturedScreens.push({ name, title: options?.title ?? '' });
     return null;
   };
