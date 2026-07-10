@@ -13,11 +13,12 @@ jest.mock('react-native-safe-area-context', () => ({
 }));
 
 describe('HomeScreen', () => {
-  it('renders title, subtitle, button, and section', async () => {
+  it('renders title, subtitle, button, section, and empty state', async () => {
     const { getByText } = await render(<HomeScreen />);
     expect(getByText('home.title')).toBeTruthy();
     expect(getByText('home.subtitle')).toBeTruthy();
     expect(getByText('home.newCart')).toBeTruthy();
     expect(getByText('home.myCarts')).toBeTruthy();
+    expect(getByText('home.emptyState')).toBeTruthy();
   });
 });
