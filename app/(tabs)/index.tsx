@@ -1,5 +1,5 @@
 import { colors } from '@/constants/colors';
-import { borderRadius, spacing } from '@/constants/layout';
+import { borderRadius, buttonPadding, fontSize, fontWeight, spacing } from '@/constants/layout';
 import { useTranslation } from 'react-i18next';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -12,10 +12,17 @@ export default function HomeScreen() {
     <View style={[styles.container, { paddingTop: insets.top + spacing.lg }]}>
       <Text style={styles.title}>{t('home.title')}</Text>
       <Text style={styles.subtitle}>{t('home.subtitle')}</Text>
-      <Pressable style={styles.button}>
+      <Pressable
+        style={({ pressed }) => [styles.button, pressed && styles.buttonPressed]}
+        accessibilityRole='button'
+        accessibilityLabel={t('home.newCartA11y')}
+      >
         <Text style={styles.buttonText}>{t('home.newCart')}</Text>
       </Pressable>
       <Text style={styles.sectionTitle}>{t('home.myCarts')}</Text>
+      <View style={styles.emptyState}>
+        <Text style={styles.emptyStateText}>{t('home.emptyState')}</Text>
+      </View>
     </View>
   );
 }
@@ -26,30 +33,45 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.md,
   },
   title: {
-    fontSize: 32,
-    fontWeight: 'bold',
+    fontSize: fontSize.h1,
+    fontWeight: fontWeight.bold,
   },
   subtitle: {
-    fontSize: 16,
+    fontSize: fontSize.body,
     color: colors.textSecondary,
     marginTop: spacing.sm,
     marginBottom: spacing.lg,
   },
   button: {
     backgroundColor: colors.primary,
-    paddingVertical: spacing.sm + 4,
-    paddingHorizontal: spacing.lg,
+    paddingVertical: buttonPadding.vertical,
+    paddingHorizontal: buttonPadding.horizontal,
     borderRadius: borderRadius.md,
     alignItems: 'center',
     marginBottom: spacing.lg,
   },
+  buttonPressed: {
+    opacity: 0.8,
+  },
   buttonText: {
-    color: '#FFFFFF',
-    fontSize: 16,
-    fontWeight: '600',
+    color: colors.white,
+    fontSize: fontSize.button,
+    fontWeight: fontWeight.semibold,
   },
   sectionTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
+    fontSize: fontSize.h2,
+    fontWeight: fontWeight.bold,
+  },
+  emptyState: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: spacing.xl,
+  },
+  emptyStateText: {
+    fontSize: fontSize.body,
+    color: colors.textSecondary,
+    textAlign: 'center',
+    lineHeight: 24,
   },
 });
