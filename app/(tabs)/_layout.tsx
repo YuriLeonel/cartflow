@@ -13,13 +13,6 @@ const tabIcons: Record<string, { focused: IoniconsName; default: IoniconsName }>
   profile: { focused: 'person', default: 'person-outline' },
 };
 
-const tabA11yKeys: Record<string, string> = {
-  index: 'tabs.homeA11y',
-  lists: 'tabs.listsA11y',
-  products: 'tabs.productsA11y',
-  profile: 'tabs.profileA11y',
-};
-
 export default function TabLayout() {
   const { t } = useTranslation();
 
@@ -27,8 +20,6 @@ export default function TabLayout() {
     <Tabs
       screenOptions={({ route }) => ({
         headerShown: false,
-        tabBarActiveTintColor: colors.primary,
-        tabBarInactiveTintColor: colors.inactiveTab,
         tabBarIcon: ({ focused }) => {
           const icons = tabIcons[route.name] || tabIcons.index;
           return (
@@ -36,8 +27,6 @@ export default function TabLayout() {
               name={focused ? icons.focused : icons.default}
               size={iconSize.tab}
               color={focused ? colors.primary : colors.inactiveTab}
-              accessibilityLabel={t(tabA11yKeys[route.name] || route.name)}
-              accessibilityRole='tab'
             />
           );
         },
