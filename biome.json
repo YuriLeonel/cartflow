@@ -24,6 +24,15 @@
     }
   },
   "files": {
-    "ignore": ["node_modules", ".expo", "dist"]
+    "ignore": [
+      "node_modules",
+      ".expo",
+      "dist",
+      ".claude",
+      ".cursor",
+      ".opencode",
+      ".gemini",
+      ".agents"
+    ]
   }
 }
