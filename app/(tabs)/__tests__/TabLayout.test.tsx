@@ -2,6 +2,11 @@ import { render, waitFor } from '@testing-library/react-native';
 import type React from 'react';
 import TabLayout from '../_layout';
 
+jest.mock('@expo/vector-icons', () => {
+  const { Text } = require('react-native');
+  return { Ionicons: (props: Record<string, unknown>) => <Text>{String(props.name)}</Text> };
+});
+
 jest.mock('expo-router', () => {
   const capturedScreens: { name: string; title: string }[] = [];
 
