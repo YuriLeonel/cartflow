@@ -8,7 +8,7 @@ export default function RootLayout() {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaProvider>
         <Stack>
-          <Stack.Screen name="(tabs)" />
+          <Stack.Screen name='(tabs)' />
         </Stack>
       </SafeAreaProvider>
     </GestureHandlerRootView>

@@ -1,7 +1,7 @@
-import { Tabs } from 'expo-router';
-import { Text } from 'react-native';
-import { useTranslation } from 'react-i18next';
 import { colors } from '@/constants/colors';
+import { Tabs } from 'expo-router';
+import { useTranslation } from 'react-i18next';
+import { Text } from 'react-native';
 
 const tabIcons: Record<string, string> = {
   index: '\u{1F3E0}',
@@ -24,10 +24,10 @@ export default function TabLayout() {
         ),
       })}
     >
-      <Tabs.Screen name="index" options={{ title: t('tabs.home') }} />
-      <Tabs.Screen name="lists" options={{ title: t('tabs.lists') }} />
-      <Tabs.Screen name="products" options={{ title: t('tabs.products') }} />
-      <Tabs.Screen name="profile" options={{ title: t('tabs.profile') }} />
+      <Tabs.Screen name='index' options={{ title: t('tabs.home') }} />
+      <Tabs.Screen name='lists' options={{ title: t('tabs.lists') }} />
+      <Tabs.Screen name='products' options={{ title: t('tabs.products') }} />
+      <Tabs.Screen name='profile' options={{ title: t('tabs.profile') }} />
     </Tabs>
   );
 }
