@@ -130,6 +130,13 @@ export const useProductStore = create<ProductStore>()(
     {
       name: 'cartflow-products',
       storage: createJSONStorage(() => zustandMMKVStorage),
+      version: 1,
+      migrate: (persistedState: unknown, version: number) => {
+        if (version === 0) {
+          return persistedState;
+        }
+        return persistedState;
+      },
     },
   ),
 );

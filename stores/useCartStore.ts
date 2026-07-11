@@ -40,6 +40,13 @@ export const useCartStore = create<CartStore>()(
     {
       name: 'cartflow-carts',
       storage: createJSONStorage(() => zustandMMKVStorage),
+      version: 1,
+      migrate: (persistedState: unknown, version: number) => {
+        if (version === 0) {
+          return persistedState;
+        }
+        return persistedState;
+      },
     },
   ),
 );
