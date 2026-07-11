@@ -3,9 +3,10 @@ import { borderRadius, fontSize, fontWeight, spacing } from '@/constants/layout'
 import { useProductStore } from '@/stores/useProductStore';
 import { Ionicons } from '@expo/vector-icons';
 import { LegendList } from '@legendapp/list/react-native';
+import { useRouter } from 'expo-router';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleSheet, Text, TextInput, View } from 'react-native';
+import { Platform, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 interface CategorySection {
@@ -42,6 +43,7 @@ const ProductListItem = React.memo(({ item }: { item: ListItem }) => {
 
 export default function ProductsScreen() {
   const { t } = useTranslation();
+  const router = useRouter();
   const insets = useSafeAreaInsets();
   const products = useProductStore((s) => s.products);
   const seedIfEmpty = useProductStore((s) => s.seedIfEmpty);
@@ -99,8 +101,15 @@ export default function ProductsScreen() {
       <View style={[styles.container, { paddingTop: insets.top + spacing.lg }]}>
         <Text style={styles.title}>{t('products.title')}</Text>
         <View style={styles.emptyState}>
-          <Text style={styles.emptyStateText}>{t('products.emptyState')}</Text>
+          <Text style={styles.emptyStateText}>{t('products.noProducts')}</Text>
         </View>
+        <Pressable
+          style={[styles.fab, { bottom: insets.bottom + spacing.md }]}
+          onPress={() => router.push('/product-form')}
+          accessibilityLabel={t('products.newProduct')}
+        >
+          <Ionicons name='add' size={24} color={colors.white} />
+        </Pressable>
       </View>
     );
   }
@@ -132,6 +141,13 @@ export default function ProductsScreen() {
           renderItem={({ item }) => <ProductListItem item={item} />}
         />
       )}
+      <Pressable
+        style={[styles.fab, { bottom: insets.bottom + spacing.md }]}
+        onPress={() => router.push('/product-form')}
+        accessibilityLabel={t('products.newProduct')}
+      >
+        <Ionicons name='add' size={24} color={colors.white} />
+      </Pressable>
     </View>
   );
 }
@@ -201,5 +217,26 @@ const styles = StyleSheet.create({
     color: colors.textSecondary,
     textAlign: 'center',
     lineHeight: 24,
+  },
+  fab: {
+    position: 'absolute',
+    right: spacing.md,
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    backgroundColor: colors.primary,
+    justifyContent: 'center',
+    alignItems: 'center',
+    ...Platform.select({
+      ios: {
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+      },
+      android: {
+        elevation: 4,
+      },
+    }),
   },
 });
