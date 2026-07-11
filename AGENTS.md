@@ -2,7 +2,7 @@
 
 ## Project status
 
-Greenfield React Native mobile app. Scaffold complete (Expo SDK 57, Expo Router 4, TypeScript strict). Core tooling installed and configured. Ready for feature development.
+Greenfield React Native mobile app. Scaffold complete (Expo SDK 52, Expo Router 4, TypeScript strict). Core tooling installed and configured. Ready for feature development.
 
 ## Authority
 
@@ -10,7 +10,7 @@ AGENTS.md is **authoritative** — agents must follow it unless explicitly overr
 
 ## Core requirements
 
-- **Platform**: React Native (Expo managed workflow, SDK 57)
+- **Platform**: React Native (Expo managed workflow, SDK 52)
 - **App**: Shopping list with cart creation, product pricing, cart tracking, expected vs current price comparison
 - **Reference**: SoftList (`br.com.ridsoftware.shoppinglist`) — product catalog, barcode scanning, categories, purchase history, price reports, cloud sync
 - **i18n**: All user-facing text in Portuguese. Use `i18next` + `react-i18next` + `expo-localization`. Codebase stays in English (variable names, comments, file names, etc.)
@@ -51,7 +51,7 @@ AGENTS.md is **authoritative** — agents must follow it unless explicitly overr
 - **Lint/format**: Biome
 - **Lists**: @legendapp/list
 - **Images**: expo-image
-- **Animations**: react-native-reanimated 4 + react-native-worklets
+- **Animations**: react-native-reanimated 3
 - **Gestures**: react-native-gesture-handler
 
 ## Roadmap
@@ -74,14 +74,15 @@ npx expo start        # dev server
 
 ## Gotchas
 
-- **Expo SDK 57** is installed (resolved from `latest`). Package versions via `npx expo install` auto-match SDK. Never pin versions manually for Expo-managed packages.
-- **Reanimated 4 is a Babel plugin, not an Expo config plugin** — `react-native-reanimated` must NOT be in `app.json` → `plugins`. It's handled by `babel-preset-expo` + `react-native-worklets` (explicit dependency).
+- **Expo SDK 52** is installed. Package versions via `npx expo install` auto-match SDK. Never pin versions manually for Expo-managed packages.
+- **Reanimated 3** — ensure `react-native-reanimated/plugin` is in `babel.config.js`.
 - **`babel.config.js`** must exist with `babel-preset-expo`. Without it, Metro fails to start.
 - **Portuguese i18n only** — all user-facing strings in Portuguese (`pt-BR`). Code (vars, comments, files) stays in English. English locale is not needed
-- **`jest-expo` preset** configured; Jest version must align with `jest-expo@57` (Jest 29, not 30). Do not pin a different Jest major version.
-- **React 19.2.3** is pinned — do not upgrade. `react-dom` peer conflicts arise from web-only transitive deps (Radix UI via expo-router). Use `--legacy-peer-deps` when needed. React DOM is irrelevant for RN.
-- **Never run `npm audit fix --force`** — it may bump React/RN pins and break alignment with Expo SDK 57. Review audit results manually.
-- **Biome v0.3.3** installed — linter, formatter, import organizer
+- **jest-expo** preset configured; Jest version must align with `jest-expo@52` (Jest 29). Do not pin a different Jest major version.
+- **React 18.3.1** is the stable version for SDK 52. Do not use React 19 until Expo supports it.
+- **Never run `npm audit fix --force`** — it may bump React/RN pins and break alignment with Expo SDK 52. Review audit results manually.
+- **@biomejs/biome v1.9** installed — linter, formatter, import organizer
 - **Git Flow means** `develop` is the default branch for day-to-day work; `main` is production releases only
-- **TLC Spec-driven flow** writes specs to `docs/superpowers/specs/` — keep this structure
+- **TLC Spec-driven flow** writes specs to `.specs/features/[feature]/` — spec.md, design.md, tasks.md, validation.md. Commit these files along with implementation code; they are the traceability record for each feature
 - **Unit tests** must be in `__tests__/` or co-located as `*.test.ts` — verify pattern before choosing
+- **Review reports** (code quality, security, UI/UX) are saved alongside the task they belong to under `.specs/features/[feature]/` as `review-[type].md` (e.g. `review-code.md`, `review-ui-ux.md`). The feature folder already carries name, date, and context
