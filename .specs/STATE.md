@@ -8,17 +8,17 @@ Project setup complete. Ready for feature development.
 
 | ID | Decision | Value |
 |---|---|---|
-| AD-001 | Expo SDK | 57 (managed) |
+| AD-001 | Expo SDK | 52 (managed) |
 | AD-002 | Router | Expo Router 4 (file-based) |
 | AD-003 | Language | TypeScript strict |
-| AD-004 | State | Zustand 5 + MMKV persist |
+| AD-004 | State | Zustand 5 + MMKV 3 persist |
 | AD-005 | i18n | i18next + react-i18next + expo-localization |
 | AD-006 | Tests | Jest + @testing-library/react-native |
 | AD-007 | Lint/Format | Biome |
 | AD-008 | Lists | @legendapp/list |
 | AD-009 | Images | expo-image |
-| AD-010 | Animations | react-native-reanimated 4 |
-| AD-011 | Gestures | react-native-gesture-handler 2.32+ |
+| AD-010 | Animations | react-native-reanimated 3 |
+| AD-011 | Gestures | react-native-gesture-handler 2.20 |
 | AD-012 | Storage | MMKV (primary) |
 | AD-013 | Platforms | Android + iOS |
 
