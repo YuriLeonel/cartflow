@@ -46,3 +46,6 @@ yarn-error.*
 .cursor/
 .gemini/
 .opencode/
+
+
+.idea/

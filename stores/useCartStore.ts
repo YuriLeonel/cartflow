@@ -1,13 +1,13 @@
+import { MMKV } from 'react-native-mmkv';
 import { create } from 'zustand';
-import { persist, createJSONStorage } from 'zustand/middleware';
-import { createMMKV } from 'react-native-mmkv';
+import { createJSONStorage, persist } from 'zustand/middleware';
 
-const storage = createMMKV({ id: 'cartflow-storage' });
+const storage = new MMKV({ id: 'cartflow-storage' });
 
 const zustandMMKVStorage = {
   getItem: (name: string) => storage.getString(name) ?? null,
   setItem: (name: string, value: string) => storage.set(name, value),
-  removeItem: (name: string) => storage.remove(name),
+  removeItem: (name: string) => storage.delete(name),
 };
 
 interface Cart {

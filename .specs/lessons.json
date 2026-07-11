@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "promote_threshold": 2,
+  "window_days": 45,
+  "quarantine_threshold": 2,
+  "next_id": 4,
+  "lessons": [
+    {
+      "id": "L-001",
+      "key": "surviving_mutant::tablayout tests must mock tabs to capture screen names not render as null otherwise tab count name changes go undetected",
+      "text": "TabLayout tests must mock Tabs to capture screen names, not render as null; otherwise tab count/name changes go undetected",
+      "signal": "surviving_mutant",
+      "scope": "app/(tabs)/__tests__/TabLayout.test.tsx",
+      "status": "candidate",
+      "features": ["fase-1-navegacao"],
+      "recurrence": 1,
+      "harmful": 0,
+      "evidence": [
+        "app/(tabs)/_layout.tsx:27-30 (Mutation 1) (app/(tabs)/__tests__/TabLayout.test.tsx)"
+      ],
+      "created": "2026-07-06T23:37:41Z",
+      "last_seen": "2026-07-06T23:37:41Z"
+    },
+    {
+      "id": "L-002",
+      "key": "ac_gap::tab navigator acs tab count tap navigation active highlight state preservation need explicit test assertions smoke tests on mocked tabs are insufficient",
+      "text": "Tab navigator ACs (tab count, tap navigation, active highlight, state preservation) need explicit test assertions — smoke tests on mocked Tabs are insufficient",
+      "signal": "ac_gap",
+      "scope": "app/(tabs)/__tests__/",
+      "status": "candidate",
+      "features": ["fase-1-navegacao"],
+      "recurrence": 1,
+      "harmful": 0,
+      "evidence": ["NAV-01, NAV-02, NAV-03, NAV-04 (app/(tabs)/__tests__/)"],
+      "created": "2026-07-06T23:37:42Z",
+      "last_seen": "2026-07-06T23:37:42Z"
+    },
+    {
+      "id": "L-003",
+      "key": "surviving_mutant::when testing expo router tab layouts mock tabs screen to capture screen names and titles rather than mocking tabs as a no op a renders without crashing smoke test cannot detect missing or misconfigured tabs always assert the expected count names and i18n titles",
+      "text": "When testing Expo Router tab layouts, mock Tabs.Screen to capture screen names and titles rather than mocking Tabs as a no-op. A 'renders without crashing' smoke test cannot detect missing or misconfigured tabs — always assert the expected count, names, and i18n titles.",
+      "signal": "surviving_mutant",
+      "scope": "navigation testing",
+      "status": "candidate",
+      "features": ["fase-1-navegacao"],
+      "recurrence": 1,
+      "harmful": 0,
+      "evidence": ["validation.md: Discrimination Sensor Mutation 1 (navigation testing)"],
+      "created": "2026-07-06T23:44:08Z",
+      "last_seen": "2026-07-06T23:44:08Z"
+    }
+  ]
+}

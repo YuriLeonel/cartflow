@@ -13,10 +13,12 @@
     "confirm": "Confirmar"
   },
   "home": {
-    "title": "Cartflow",
-    "subtitle": "Sua lista de compras inteligente",
+    "title": "Olá!",
+    "subtitle": "Organize suas compras de forma inteligente",
     "newCart": "Nova Lista",
-    "myCarts": "Minhas Listas"
+    "myCarts": "Minhas Listas",
+    "emptyState": "Você ainda não tem listas. Crie sua primeira lista de compras!",
+    "newCartA11y": "Criar nova lista de compras"
   },
   "cart": {
     "total": "Total",
@@ -24,5 +26,16 @@
     "expectedPrice": "Preço esperado",
     "currentPrice": "Preço atual",
     "difference": "Diferença"
+  },
+  "tabs": {
+    "home": "Início",
+    "lists": "Listas",
+    "products": "Produtos",
+    "profile": "Perfil",
+    "comingSoon": "Em breve",
+    "homeA11y": "Início",
+    "listsA11y": "Listas",
+    "productsA11y": "Produtos",
+    "profileA11y": "Perfil"
   }
 }
