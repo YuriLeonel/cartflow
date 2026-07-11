@@ -1,16 +1,10 @@
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 import { zustandMMKVStorage } from '../lib/storage';
-
-interface Cart {
-  id: string;
-  name: string;
-  createdAt: string;
-  updatedAt: string;
-}
+import type { CartSummary } from '../types';
 
 interface CartStore {
-  carts: Cart[];
+  carts: CartSummary[];
   activeCartId: string | null;
   addCart: (name: string) => void;
   removeCart: (id: string) => void;
@@ -26,7 +20,7 @@ export const useCartStore = create<CartStore>()(
       addCart: (name) =>
         set((state) => {
           const now = new Date().toISOString();
-          const newCart: Cart = {
+          const newCart: CartSummary = {
             id: `cart_${Date.now()}`,
             name,
             createdAt: now,
