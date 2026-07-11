@@ -1,10 +1,11 @@
 import { colors } from '@/constants/colors';
 import { borderRadius, fontSize, fontWeight, spacing } from '@/constants/layout';
 import { useProductStore } from '@/stores/useProductStore';
+import { Ionicons } from '@expo/vector-icons';
 import { LegendList } from '@legendapp/list/react-native';
-import { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 interface CategorySection {
@@ -25,19 +26,40 @@ type ListItem = CategorySection | ProductItem;
 const formatPrice = (price: number): string =>
   new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(price);
 
+const ProductListItem = React.memo(({ item }: { item: ListItem }) => {
+  if (item.type === 'category') {
+    return <Text style={styles.categoryHeader}>{item.category}</Text>;
+  }
+  return (
+    <View style={styles.productCard}>
+      <Text style={styles.productName}>{item.name}</Text>
+      {item.expectedPrice !== undefined && (
+        <Text style={styles.productPrice}>{formatPrice(item.expectedPrice)}</Text>
+      )}
+    </View>
+  );
+});
+
 export default function ProductsScreen() {
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
   const products = useProductStore((s) => s.products);
   const seedIfEmpty = useProductStore((s) => s.seedIfEmpty);
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     seedIfEmpty();
   }, [seedIfEmpty]);
 
+  const filteredProducts = useMemo(() => {
+    if (!searchQuery.trim()) return products;
+    const query = searchQuery.trim().toLowerCase();
+    return products.filter((p) => p.name.toLowerCase().includes(query));
+  }, [products, searchQuery]);
+
   const sections = useMemo(() => {
     const grouped = new Map<string, Array<ProductItem>>();
-    for (const product of products) {
+    for (const product of filteredProducts) {
       const category = product.category || t('products.withoutCategory');
       if (!grouped.has(category)) {
         grouped.set(category, []);
@@ -51,12 +73,13 @@ export default function ProductsScreen() {
       });
     }
     const result: ListItem[] = [];
-    for (const [category, items] of grouped) {
+    const sortedCategories = Array.from(grouped.entries()).sort(([a], [b]) => a.localeCompare(b));
+    for (const [category, items] of sortedCategories) {
       result.push({ type: 'category', category });
       result.push(...items);
     }
     return result;
-  }, [products, t]);
+  }, [filteredProducts, t]);
 
   const stickyIndices = useMemo(() => {
     const indices: number[] = [];
@@ -67,6 +90,9 @@ export default function ProductsScreen() {
     }
     return indices;
   }, [sections]);
+
+  const isSearching = searchQuery.trim().length > 0;
+  const showNoResults = isSearching && filteredProducts.length === 0;
 
   if (products.length === 0) {
     return (
@@ -82,26 +108,30 @@ export default function ProductsScreen() {
   return (
     <View style={[styles.container, { paddingTop: insets.top + spacing.lg }]}>
       <Text style={styles.title}>{t('products.title')}</Text>
-      <LegendList
-        data={sections}
-        keyExtractor={(item: ListItem) =>
-          item.type === 'category' ? `cat-${item.category}` : item.id
-        }
-        stickyHeaderIndices={stickyIndices}
-        renderItem={({ item }: { item: ListItem }) => {
-          if (item.type === 'category') {
-            return <Text style={styles.categoryHeader}>{item.category}</Text>;
-          }
-          return (
-            <View style={styles.productCard}>
-              <Text style={styles.productName}>{item.name}</Text>
-              {item.expectedPrice !== undefined && (
-                <Text style={styles.productPrice}>{formatPrice(item.expectedPrice)}</Text>
-              )}
-            </View>
-          );
-        }}
-      />
+      <View style={styles.searchContainer}>
+        <Ionicons name='search' size={20} color={colors.textSecondary} style={styles.searchIcon} />
+        <TextInput
+          style={styles.searchInput}
+          placeholder={t('products.search')}
+          placeholderTextColor={colors.textSecondary}
+          value={searchQuery}
+          onChangeText={setSearchQuery}
+          autoCorrect={false}
+        />
+      </View>
+      {showNoResults ? (
+        <View style={styles.emptyState}>
+          <Text style={styles.emptyStateText}>{t('products.emptyState')}</Text>
+        </View>
+      ) : (
+        <LegendList
+          data={sections}
+          estimatedItemSize={64}
+          keyExtractor={(item) => (item.type === 'category' ? `cat-${item.category}` : item.id)}
+          stickyHeaderIndices={stickyIndices}
+          renderItem={({ item }) => <ProductListItem item={item} />}
+        />
+      )}
     </View>
   );
 }
@@ -115,6 +145,26 @@ const styles = StyleSheet.create({
     fontSize: fontSize.h1,
     fontWeight: fontWeight.bold,
     marginBottom: spacing.md,
+  },
+  searchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: colors.surface,
+    borderRadius: borderRadius.md,
+    borderWidth: 1,
+    borderColor: colors.border,
+    paddingHorizontal: spacing.md,
+    marginBottom: spacing.md,
+    height: 48,
+  },
+  searchIcon: {
+    marginRight: spacing.sm,
+  },
+  searchInput: {
+    flex: 1,
+    fontSize: fontSize.body,
+    color: colors.text,
+    padding: 0,
   },
   categoryHeader: {
     fontSize: fontSize.h2,

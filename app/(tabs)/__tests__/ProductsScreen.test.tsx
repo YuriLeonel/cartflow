@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react-native';
+import { fireEvent, render } from '@testing-library/react-native';
 import type React from 'react';
 import ProductsScreen from '../products';
 
@@ -15,6 +15,13 @@ const mockState = {
 jest.mock('react-i18next', () => ({
   useTranslation: () => ({ t: (key: string) => key }),
 }));
+
+jest.mock('@expo/vector-icons', () => {
+  const ReactMock = require('react');
+  return {
+    Ionicons: (props: Record<string, unknown>) => ReactMock.createElement('Ionicons-mock', props),
+  };
+});
 
 jest.mock('react-native-safe-area-context', () => ({
   SafeAreaProvider: ({ children }: { children: React.ReactNode }) => children,
@@ -57,22 +64,70 @@ describe('ProductsScreen', () => {
     ];
   });
 
-  it('renders category headers', async () => {
-    const { getByText } = await render(<ProductsScreen />);
+  it('renders category headers', () => {
+    const { getByText } = render(<ProductsScreen />);
     expect(getByText('Grãos')).toBeTruthy();
     expect(getByText('Hortifruti')).toBeTruthy();
   });
 
-  it('renders product names', async () => {
-    const { getByText } = await render(<ProductsScreen />);
+  it('renders product names', () => {
+    const { getByText } = render(<ProductsScreen />);
     expect(getByText('Arroz 1kg')).toBeTruthy();
     expect(getByText('Feijão 1kg')).toBeTruthy();
     expect(getByText('Banana 1kg')).toBeTruthy();
   });
 
-  it('shows empty state when no products', async () => {
+  it('formats prices as BRL currency', () => {
+    const { getByText } = render(<ProductsScreen />);
+    expect(getByText('R$ 8,49')).toBeTruthy();
+    expect(getByText('R$ 9,99')).toBeTruthy();
+    expect(getByText('R$ 7,49')).toBeTruthy();
+  });
+
+  it('shows empty state when no products', () => {
     mockState.products = [];
-    const { getByText } = await render(<ProductsScreen />);
+    const { getByText } = render(<ProductsScreen />);
     expect(getByText('products.emptyState')).toBeTruthy();
+  });
+
+  describe('search functionality', () => {
+    it('renders search bar with placeholder', () => {
+      const { getByPlaceholderText } = render(<ProductsScreen />);
+      expect(getByPlaceholderText('products.search')).toBeTruthy();
+    });
+
+    it('filters products by name (case-insensitive)', () => {
+      const { getByPlaceholderText, queryByText } = render(<ProductsScreen />);
+      const searchInput = getByPlaceholderText('products.search');
+      fireEvent.changeText(searchInput, 'arroz');
+      expect(queryByText('Arroz 1kg')).toBeTruthy();
+      expect(queryByText('Feijão 1kg')).toBeNull();
+      expect(queryByText('Banana 1kg')).toBeNull();
+    });
+
+    it('shows no results message when search matches nothing', () => {
+      const { getByPlaceholderText, getByText, queryByText } = render(<ProductsScreen />);
+      const searchInput = getByPlaceholderText('products.search');
+      fireEvent.changeText(searchInput, 'xyz');
+      expect(getByText('products.emptyState')).toBeTruthy();
+      expect(queryByText('Arroz 1kg')).toBeNull();
+    });
+
+    it('restores full list when search is cleared', () => {
+      const { getByPlaceholderText, queryByText } = render(<ProductsScreen />);
+      const searchInput = getByPlaceholderText('products.search');
+      fireEvent.changeText(searchInput, 'arroz');
+      expect(queryByText('Feijão 1kg')).toBeNull();
+      fireEvent.changeText(searchInput, '');
+      expect(queryByText('Arroz 1kg')).toBeTruthy();
+      expect(queryByText('Feijão 1kg')).toBeTruthy();
+      expect(queryByText('Banana 1kg')).toBeTruthy();
+    });
+
+    it('shows no products empty state when products array is empty', () => {
+      mockState.products = [];
+      const { getByText } = render(<ProductsScreen />);
+      expect(getByText('products.emptyState')).toBeTruthy();
+    });
   });
 });
