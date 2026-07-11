@@ -101,7 +101,7 @@ export default function ProductFormScreen() {
             placeholderTextColor={colors.textSecondary}
             maxLength={100}
             autoCorrect={false}
-            accessibilityLabel={t('products.newProduct')}
+            accessibilityLabel={t('products.nameLabel')}
           />
           {nameError ? <Text style={styles.errorText}>{nameError}</Text> : null}
         </View>
@@ -115,6 +115,7 @@ export default function ProductFormScreen() {
             placeholder={t('products.withoutCategory')}
             placeholderTextColor={colors.textSecondary}
             autoCorrect={false}
+            accessibilityLabel={t('products.category')}
           />
         </View>
 
@@ -127,6 +128,7 @@ export default function ProductFormScreen() {
             placeholder={t('products.pricePlaceholder')}
             placeholderTextColor={colors.textSecondary}
             keyboardType='numeric'
+            accessibilityLabel={t('products.expectedPrice')}
           />
           {priceError ? <Text style={styles.errorText}>{priceError}</Text> : null}
         </View>
@@ -136,6 +138,7 @@ export default function ProductFormScreen() {
             style={styles.cancelButton}
             onPress={handleCancel}
             accessibilityLabel={t('common.cancel')}
+            accessibilityRole='button'
           >
             <Text style={styles.cancelButtonText}>{t('common.cancel')}</Text>
           </Pressable>
@@ -143,6 +146,7 @@ export default function ProductFormScreen() {
             style={styles.saveButton}
             onPress={handleSave}
             accessibilityLabel={t('common.save')}
+            accessibilityRole='button'
           >
             <Text style={styles.saveButtonText}>{t('common.save')}</Text>
           </Pressable>

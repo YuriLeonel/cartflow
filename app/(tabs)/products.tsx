@@ -32,7 +32,11 @@ const ProductListItem = React.memo(({ item }: { item: ListItem }) => {
     return <Text style={styles.categoryHeader}>{item.category}</Text>;
   }
   return (
-    <View style={styles.productCard}>
+    <View
+      style={styles.productCard}
+      accessibilityRole='summary'
+      accessibilityLabel={`${item.name}${item.expectedPrice !== undefined ? `, ${formatPrice(item.expectedPrice)}` : ''}`}
+    >
       <Text style={styles.productName}>{item.name}</Text>
       {item.expectedPrice !== undefined && (
         <Text style={styles.productPrice}>{formatPrice(item.expectedPrice)}</Text>
@@ -107,6 +111,7 @@ export default function ProductsScreen() {
           style={[styles.fab, { bottom: insets.bottom + spacing.md }]}
           onPress={() => router.push('/product-form')}
           accessibilityLabel={t('products.newProduct')}
+          accessibilityRole='button'
         >
           <Ionicons name='add' size={24} color={colors.white} />
         </Pressable>
@@ -126,6 +131,7 @@ export default function ProductsScreen() {
           value={searchQuery}
           onChangeText={setSearchQuery}
           autoCorrect={false}
+          accessibilityLabel={t('products.search')}
         />
       </View>
       {showNoResults ? (
@@ -145,6 +151,7 @@ export default function ProductsScreen() {
         style={[styles.fab, { bottom: insets.bottom + spacing.md }]}
         onPress={() => router.push('/product-form')}
         accessibilityLabel={t('products.newProduct')}
+        accessibilityRole='button'
       >
         <Ionicons name='add' size={24} color={colors.white} />
       </Pressable>
