@@ -87,7 +87,7 @@ describe('ProductsScreen', () => {
   it('shows empty state when no products', () => {
     mockState.products = [];
     const { getByText } = render(<ProductsScreen />);
-    expect(getByText('products.emptyState')).toBeTruthy();
+    expect(getByText('products.noProducts')).toBeTruthy();
   });
 
   describe('search functionality', () => {
@@ -127,7 +127,7 @@ describe('ProductsScreen', () => {
     it('shows no products empty state when products array is empty', () => {
       mockState.products = [];
       const { getByText } = render(<ProductsScreen />);
-      expect(getByText('products.emptyState')).toBeTruthy();
+      expect(getByText('products.noProducts')).toBeTruthy();
     });
   });
 });

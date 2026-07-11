@@ -42,9 +42,9 @@ describe('ProductFormScreen', () => {
   it('renders all form fields', () => {
     const { getByPlaceholderText, getByText } = render(<ProductFormScreen />);
     expect(getByText('products.newProduct')).toBeTruthy();
-    expect(getByPlaceholderText('Nome do produto')).toBeTruthy();
+    expect(getByPlaceholderText('products.namePlaceholder')).toBeTruthy();
     expect(getByPlaceholderText('products.withoutCategory')).toBeTruthy();
-    expect(getByPlaceholderText('0,00')).toBeTruthy();
+    expect(getByPlaceholderText('products.pricePlaceholder')).toBeTruthy();
   });
 
   it('renders save and cancel buttons', () => {
@@ -62,7 +62,7 @@ describe('ProductFormScreen', () => {
 
     it('shows error when name has only spaces (PROD-E01)', () => {
       const { getByText, getByPlaceholderText } = render(<ProductFormScreen />);
-      fireEvent.changeText(getByPlaceholderText('Nome do produto'), '   ');
+      fireEvent.changeText(getByPlaceholderText('products.namePlaceholder'), '   ');
       fireEvent.press(getByText('common.save'));
       expect(getByText('error.product.name.required')).toBeTruthy();
     });
@@ -70,15 +70,15 @@ describe('ProductFormScreen', () => {
     it('shows error when name exceeds 100 chars (PROD-E03)', () => {
       const { getByText, getByPlaceholderText } = render(<ProductFormScreen />);
       const longName = 'a'.repeat(101);
-      fireEvent.changeText(getByPlaceholderText('Nome do produto'), longName);
+      fireEvent.changeText(getByPlaceholderText('products.namePlaceholder'), longName);
       fireEvent.press(getByText('common.save'));
       expect(getByText('error.product.name.maxLength')).toBeTruthy();
     });
 
     it('shows error when price is negative (PROD-E02)', () => {
       const { getByText, getByPlaceholderText } = render(<ProductFormScreen />);
-      fireEvent.changeText(getByPlaceholderText('Nome do produto'), 'Arroz');
-      fireEvent.changeText(getByPlaceholderText('0,00'), '-5');
+      fireEvent.changeText(getByPlaceholderText('products.namePlaceholder'), 'Arroz');
+      fireEvent.changeText(getByPlaceholderText('products.pricePlaceholder'), '-5');
       fireEvent.press(getByText('common.save'));
       expect(getByText('error.product.price.positive')).toBeTruthy();
     });
@@ -86,9 +86,9 @@ describe('ProductFormScreen', () => {
 
   it('saves product and navigates back on valid submission (PROD-08)', () => {
     const { getByText, getByPlaceholderText } = render(<ProductFormScreen />);
-    fireEvent.changeText(getByPlaceholderText('Nome do produto'), 'Arroz 1kg');
+    fireEvent.changeText(getByPlaceholderText('products.namePlaceholder'), 'Arroz 1kg');
     fireEvent.changeText(getByPlaceholderText('products.withoutCategory'), 'Grãos');
-    fireEvent.changeText(getByPlaceholderText('0,00'), '8,49');
+    fireEvent.changeText(getByPlaceholderText('products.pricePlaceholder'), '8,49');
     fireEvent.press(getByText('common.save'));
 
     expect(mockAddProduct).toHaveBeenCalledWith({
@@ -101,7 +101,7 @@ describe('ProductFormScreen', () => {
 
   it('saves product without optional fields', () => {
     const { getByText, getByPlaceholderText } = render(<ProductFormScreen />);
-    fireEvent.changeText(getByPlaceholderText('Nome do produto'), 'Banana');
+    fireEvent.changeText(getByPlaceholderText('products.namePlaceholder'), 'Banana');
     fireEvent.press(getByText('common.save'));
 
     expect(mockAddProduct).toHaveBeenCalledWith({
@@ -122,7 +122,7 @@ describe('ProductFormScreen', () => {
   it('shows server-side error when store rejects', () => {
     mockAddProduct.mockReturnValue('error.product.name.required');
     const { getByText, getByPlaceholderText } = render(<ProductFormScreen />);
-    fireEvent.changeText(getByPlaceholderText('Nome do produto'), 'Valid Name');
+    fireEvent.changeText(getByPlaceholderText('products.namePlaceholder'), 'Valid Name');
     fireEvent.press(getByText('common.save'));
 
     expect(mockAddProduct).toHaveBeenCalled();

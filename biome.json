@@ -25,9 +25,12 @@
   },
   "files": {
     "ignore": [
+      "expo-env.d.ts",
       "node_modules",
       ".expo",
       "dist",
+      "android",
+      "ios",
       ".claude",
       ".cursor",
       ".opencode",

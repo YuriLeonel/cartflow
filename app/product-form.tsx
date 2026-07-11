@@ -27,6 +27,12 @@ export default function ProductFormScreen() {
   const [nameError, setNameError] = useState('');
   const [priceError, setPriceError] = useState('');
 
+  const parsePrice = (value: string): number | undefined => {
+    if (!value.trim()) return undefined;
+    const num = Number(value.replace(',', '.'));
+    return Number.isNaN(num) ? undefined : num;
+  };
+
   const validate = (): boolean => {
     let valid = true;
     setNameError('');
@@ -41,8 +47,8 @@ export default function ProductFormScreen() {
       valid = false;
     }
 
-    const priceNum = expectedPrice ? Number(expectedPrice.replace(',', '.')) : undefined;
-    if (priceNum !== undefined && (Number.isNaN(priceNum) || priceNum <= 0)) {
+    const priceNum = parsePrice(expectedPrice);
+    if (priceNum !== undefined && priceNum <= 0) {
       setPriceError(t('error.product.price.positive'));
       valid = false;
     }
@@ -53,12 +59,10 @@ export default function ProductFormScreen() {
   const handleSave = () => {
     if (!validate()) return;
 
-    const priceNum = expectedPrice ? Number(expectedPrice.replace(',', '.')) : undefined;
-
     const result = addProduct({
       name: name.trim(),
       category: category.trim() || undefined,
-      expectedPrice: priceNum,
+      expectedPrice: parsePrice(expectedPrice),
     });
 
     if (result) {
@@ -88,14 +92,14 @@ export default function ProductFormScreen() {
         <Text style={styles.title}>{t('products.newProduct')}</Text>
 
         <View style={styles.field}>
-          <Text style={styles.label}>Nome *</Text>
+          <Text style={styles.label}>{t('products.nameLabel')}</Text>
           <TextInput
             style={[styles.input, nameError ? styles.inputError : null]}
             value={name}
             onChangeText={setName}
-            placeholder='Nome do produto'
+            placeholder={t('products.namePlaceholder')}
             placeholderTextColor={colors.textSecondary}
-            maxLength={101}
+            maxLength={100}
             autoCorrect={false}
             accessibilityLabel={t('products.newProduct')}
           />
@@ -120,7 +124,7 @@ export default function ProductFormScreen() {
             style={[styles.input, priceError ? styles.inputError : null]}
             value={expectedPrice}
             onChangeText={setExpectedPrice}
-            placeholder='0,00'
+            placeholder={t('products.pricePlaceholder')}
             placeholderTextColor={colors.textSecondary}
             keyboardType='numeric'
           />
