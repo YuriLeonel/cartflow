@@ -1,5 +1,6 @@
 import { colors } from '@/constants/colors';
 import { borderRadius, fontSize, fontWeight, spacing } from '@/constants/layout';
+import { parsePrice } from '@/lib/format';
 import { useProductStore } from '@/stores/useProductStore';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
@@ -27,37 +28,9 @@ export default function ProductFormScreen() {
   const [nameError, setNameError] = useState('');
   const [priceError, setPriceError] = useState('');
 
-  const parsePrice = (value: string): number | undefined => {
-    if (!value.trim()) return undefined;
-    const num = Number(value.replace(',', '.'));
-    return Number.isNaN(num) ? undefined : num;
-  };
-
-  const validate = (): boolean => {
-    let valid = true;
+  const handleSave = () => {
     setNameError('');
     setPriceError('');
-
-    const trimmedName = name.trim();
-    if (trimmedName.length === 0) {
-      setNameError(t('error.product.name.required'));
-      valid = false;
-    } else if (trimmedName.length > 100) {
-      setNameError(t('error.product.name.maxLength'));
-      valid = false;
-    }
-
-    const priceNum = parsePrice(expectedPrice);
-    if (priceNum !== undefined && priceNum <= 0) {
-      setPriceError(t('error.product.price.positive'));
-      valid = false;
-    }
-
-    return valid;
-  };
-
-  const handleSave = () => {
-    if (!validate()) return;
 
     const result = addProduct({
       name: name.trim(),
