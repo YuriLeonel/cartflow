@@ -1,24 +1,11 @@
-import { MMKV } from 'react-native-mmkv';
+import { randomUUID } from 'expo-crypto';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
-
-const storage = new MMKV({ id: 'cartflow-storage' });
-
-const zustandMMKVStorage = {
-  getItem: (name: string) => storage.getString(name) ?? null,
-  setItem: (name: string, value: string) => storage.set(name, value),
-  removeItem: (name: string) => storage.delete(name),
-};
-
-interface Cart {
-  id: string;
-  name: string;
-  createdAt: string;
-  updatedAt: string;
-}
+import { zustandMMKVStorage } from '../lib/storage';
+import type { CartSummary } from '../types';
 
 interface CartStore {
-  carts: Cart[];
+  carts: CartSummary[];
   activeCartId: string | null;
   addCart: (name: string) => void;
   removeCart: (id: string) => void;
@@ -34,8 +21,8 @@ export const useCartStore = create<CartStore>()(
       addCart: (name) =>
         set((state) => {
           const now = new Date().toISOString();
-          const newCart: Cart = {
-            id: `cart_${Date.now()}`,
+          const newCart: CartSummary = {
+            id: `cart_${randomUUID()}`,
             name,
             createdAt: now,
             updatedAt: now,
@@ -54,6 +41,13 @@ export const useCartStore = create<CartStore>()(
     {
       name: 'cartflow-carts',
       storage: createJSONStorage(() => zustandMMKVStorage),
+      version: 1,
+      migrate: (persistedState: unknown, version: number) => {
+        if (version === 0) {
+          return persistedState;
+        }
+        return persistedState;
+      },
     },
   ),
 );

@@ -31,8 +31,7 @@
           "origin": "https://cartflow.app"
         }
       ],
-      "expo-asset",
-      "expo-font"
+      "expo-asset"
     ],
     "experiments": {
       "typedRoutes": true

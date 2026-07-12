@@ -27,6 +27,31 @@
     "currentPrice": "Preço atual",
     "difference": "Diferença"
   },
+  "error": {
+    "product": {
+      "name": {
+        "required": "Nome é obrigatório",
+        "maxLength": "Nome muito longo (máx. 100 caracteres)"
+      },
+      "price": {
+        "positive": "Preço deve ser positivo"
+      },
+      "save": "Erro ao salvar produto"
+    }
+  },
+  "products": {
+    "title": "Produtos",
+    "search": "Buscar produto...",
+    "emptyState": "Nenhum produto encontrado",
+    "noProducts": "Nenhum produto cadastrado",
+    "newProduct": "Novo Produto",
+    "nameLabel": "Nome *",
+    "namePlaceholder": "Nome do produto",
+    "category": "Categoria",
+    "expectedPrice": "Preço esperado",
+    "pricePlaceholder": "0,00",
+    "withoutCategory": "Sem categoria"
+  },
   "tabs": {
     "home": "Início",
     "lists": "Listas",

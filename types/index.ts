@@ -19,3 +19,5 @@ export interface Cart {
   createdAt: string;
   updatedAt: string;
 }
+
+export type CartSummary = Omit<Cart, 'items'>;

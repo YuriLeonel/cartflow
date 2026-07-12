@@ -6,15 +6,15 @@ Roadmap evolutivo para o MVP do Cartflow, organizado em fases com dependências 
 
 | Layer | Technology |
 |---|---|
-| Framework | Expo SDK 57 (managed) |
-| Platform | React Native 0.86 (Android + iOS) |
-| Language | TypeScript 6 (strict) |
+| Framework | Expo SDK 52 (managed) |
+| Platform | React Native 0.76 (Android + iOS) |
+| Language | TypeScript 5.3 (strict) |
 | Routing | Expo Router 4 (file-based) |
-| State | Zustand 5 + MMKV 4 (persist middleware) |
+| State | Zustand 5 + MMKV 3 (persist middleware) |
 | i18n | i18next + react-i18next + expo-localization (pt-BR) |
 | Lists | @legendapp/list |
 | Images | expo-image |
-| Animations | react-native-reanimated 4 + worklets |
+| Animations | react-native-reanimated 3 + worklets |
 | Gestures | react-native-gesture-handler |
 | Testing | Jest + @testing-library/react-native |
 | Lint / Format | Biome |
