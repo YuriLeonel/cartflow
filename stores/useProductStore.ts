@@ -1,3 +1,4 @@
+import { randomUUID } from 'expo-crypto';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 import { zustandMMKVStorage } from '../lib/storage';
@@ -64,6 +65,42 @@ const seedProducts: Product[] = [
     category: 'Mercearia',
     expectedPrice: 4.29,
   },
+  {
+    id: 'seed_11',
+    name: 'Frango Inteiro Resfriado Sadia 1kg',
+    category: 'Carnes',
+    expectedPrice: 11.99,
+  },
+  {
+    id: 'seed_12',
+    name: 'Peito de Peixe Congelado 500g',
+    category: 'Carnes',
+    expectedPrice: 14.49,
+  },
+  {
+    id: 'seed_13',
+    name: 'Sabão em Pó Tixan 1kg',
+    category: 'Higiene',
+    expectedPrice: 7.89,
+  },
+  {
+    id: 'seed_14',
+    name: 'Shampoo Pantene 400ml',
+    category: 'Higiene',
+    expectedPrice: 12.49,
+  },
+  {
+    id: 'seed_15',
+    name: 'Refrigerante Coca-Cola 2L',
+    category: 'Bebidas',
+    expectedPrice: 8.99,
+  },
+  {
+    id: 'seed_16',
+    name: 'Suco Del Valle 1L',
+    category: 'Bebidas',
+    expectedPrice: 4.79,
+  },
 ];
 
 export interface ProductStore {
@@ -74,7 +111,7 @@ export interface ProductStore {
   seedIfEmpty: () => void;
 }
 
-const validateProduct = (product: Omit<Product, 'id'>): string | null => {
+export const validateProduct = (product: Omit<Product, 'id'>): string | null => {
   const trimmedName = product.name.trim();
   if (trimmedName.length === 0) {
     return 'error.product.name.required';
@@ -101,7 +138,7 @@ export const useProductStore = create<ProductStore>()(
         const newProduct: Product = {
           ...product,
           name: product.name.trim(),
-          id: `product_${Date.now()}`,
+          id: `product_${randomUUID()}`,
         };
         set((state) => ({
           products: [...state.products, newProduct],

@@ -1,3 +1,4 @@
+import { randomUUID } from 'expo-crypto';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 import { zustandMMKVStorage } from '../lib/storage';
@@ -21,7 +22,7 @@ export const useCartStore = create<CartStore>()(
         set((state) => {
           const now = new Date().toISOString();
           const newCart: CartSummary = {
-            id: `cart_${Date.now()}`,
+            id: `cart_${randomUUID()}`,
             name,
             createdAt: now,
             updatedAt: now,
