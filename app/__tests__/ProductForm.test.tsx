@@ -55,12 +55,14 @@ describe('ProductFormScreen', () => {
 
   describe('validation', () => {
     it('shows error when name is empty (PROD-09)', () => {
+      mockAddProduct.mockReturnValue('error.product.name.required');
       const { getByText } = render(<ProductFormScreen />);
       fireEvent.press(getByText('common.save'));
       expect(getByText('error.product.name.required')).toBeTruthy();
     });
 
     it('shows error when name has only spaces (PROD-E01)', () => {
+      mockAddProduct.mockReturnValue('error.product.name.required');
       const { getByText, getByPlaceholderText } = render(<ProductFormScreen />);
       fireEvent.changeText(getByPlaceholderText('products.namePlaceholder'), '   ');
       fireEvent.press(getByText('common.save'));
@@ -68,6 +70,7 @@ describe('ProductFormScreen', () => {
     });
 
     it('shows error when name exceeds 100 chars (PROD-E03)', () => {
+      mockAddProduct.mockReturnValue('error.product.name.maxLength');
       const { getByText, getByPlaceholderText } = render(<ProductFormScreen />);
       const longName = 'a'.repeat(101);
       fireEvent.changeText(getByPlaceholderText('products.namePlaceholder'), longName);
@@ -76,6 +79,7 @@ describe('ProductFormScreen', () => {
     });
 
     it('shows error when price is negative (PROD-E02)', () => {
+      mockAddProduct.mockReturnValue('error.product.price.positive');
       const { getByText, getByPlaceholderText } = render(<ProductFormScreen />);
       fireEvent.changeText(getByPlaceholderText('products.namePlaceholder'), 'Arroz');
       fireEvent.changeText(getByPlaceholderText('products.pricePlaceholder'), '-5');

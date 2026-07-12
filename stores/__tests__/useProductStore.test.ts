@@ -1,17 +1,22 @@
 import type { Product } from '../../types';
 
 const mockStorage = new Map<string, string>();
+const mockSetFn = jest.fn((name: string, value: string) => {
+  mockStorage.set(name, value);
+});
 
-jest.mock('react-native-mmkv', () => ({
-  MMKV: jest.fn().mockImplementation(() => ({
-    getString: (key: string) => mockStorage.get(key) ?? null,
-    set: (key: string, value: string) => {
-      mockStorage.set(key, value);
+jest.mock('../../lib/storage', () => ({
+  zustandMMKVStorage: {
+    getItem: (name: string) => mockStorage.get(name) ?? null,
+    setItem: (...args: unknown[]) => mockSetFn(...(args as [string, string])),
+    removeItem: (name: string) => {
+      mockStorage.delete(name);
     },
-    delete: (key: string) => {
-      mockStorage.delete(key);
-    },
-  })),
+  },
+}));
+
+jest.mock('expo-crypto', () => ({
+  randomUUID: () => `test-uuid-${Math.random().toString(36).slice(2, 10)}`,
 }));
 
 import { useProductStore } from '../useProductStore';
@@ -19,6 +24,7 @@ import { useProductStore } from '../useProductStore';
 const resetStore = () => {
   useProductStore.setState({ products: [] });
   mockStorage.clear();
+  mockSetFn.mockClear();
 };
 
 beforeEach(() => {
@@ -45,7 +51,7 @@ describe('useProductStore', () => {
       expect(error).toBeNull();
       const { products } = useProductStore.getState();
       expect(products).toHaveLength(1);
-      expect(products[0].id).toMatch(/^product_\d+$/);
+      expect(products[0].id).toMatch(/^product_test-uuid-/);
       expect(products[0].name).toBe('Arroz 1kg');
       expect(products[0].category).toBe('Grãos');
       expect(products[0].expectedPrice).toBe(8.99);
@@ -163,7 +169,7 @@ describe('useProductStore', () => {
       useProductStore.getState().seedIfEmpty();
 
       const { products } = useProductStore.getState();
-      expect(products.length).toBeGreaterThanOrEqual(8);
+      expect(products.length).toBeGreaterThanOrEqual(15);
       expect(products[0].id).toMatch(/^seed_\d+$/);
     });
 
@@ -194,7 +200,7 @@ describe('useProductStore', () => {
 
       const { products } = useProductStore.getState();
       const categories = new Set(products.map((p) => p.category).filter(Boolean));
-      expect(categories.size).toBeGreaterThanOrEqual(3);
+      expect(categories.size).toBeGreaterThanOrEqual(4);
     });
   });
 
@@ -232,6 +238,18 @@ describe('useProductStore', () => {
       const { products } = useProductStore.getState();
       expect(products).toHaveLength(1);
       expect(products[0].name).toBe('Leite');
+    });
+
+    it('storage adapter calls MMKV set through zustandMMKVStorage', () => {
+      mockSetFn.mockClear();
+      const store = useProductStore.getState();
+      store.addProduct({ name: 'Persist Test', expectedPrice: 10 });
+
+      expect(mockSetFn).toHaveBeenCalled();
+      const stored = mockStorage.get('cartflow-products');
+      expect(stored).toBeTruthy();
+      const parsed = JSON.parse(stored as string);
+      expect(parsed.state.products[0].name).toBe('Persist Test');
     });
   });
 });
