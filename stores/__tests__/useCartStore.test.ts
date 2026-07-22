@@ -533,5 +533,126 @@ describe('useCartStore', () => {
       expect(carts[0].name).toBe('Old Cart');
       expect(carts[0].items).toEqual([]);
     });
+
+    it('migrates v2 format by adding inCart: false to items', async () => {
+      const v2Data = {
+        state: {
+          carts: [
+            {
+              id: 'c1',
+              name: 'Cart',
+              items: [{ productId: 'p1', quantity: 2 }],
+              createdAt: '2024-01-01',
+              updatedAt: '2024-01-01',
+            },
+          ],
+          activeCartId: null,
+        },
+        version: 2,
+      };
+      mockStorage.set('cartflow-carts', JSON.stringify(v2Data));
+
+      await useCartStore.persist.rehydrate();
+
+      const { carts } = useCartStore.getState();
+      expect(carts[0].items[0].inCart).toBe(false);
+    });
+  });
+
+  describe('toggleInCart', () => {
+    it('toggles inCart from false to true', () => {
+      useCartStore.setState({
+        carts: [
+          {
+            id: 'c1',
+            name: 'L',
+            items: [{ productId: 'p1', quantity: 1, inCart: false }],
+            createdAt: '',
+            updatedAt: '',
+          },
+        ],
+      });
+
+      const error = useCartStore.getState().toggleInCart('c1', 'p1');
+
+      expect(error).toBeNull();
+      expect(useCartStore.getState().carts[0].items[0].inCart).toBe(true);
+    });
+
+    it('toggles inCart from true to false', () => {
+      useCartStore.setState({
+        carts: [
+          {
+            id: 'c1',
+            name: 'L',
+            items: [{ productId: 'p1', quantity: 1, inCart: true }],
+            createdAt: '',
+            updatedAt: '',
+          },
+        ],
+      });
+
+      useCartStore.getState().toggleInCart('c1', 'p1');
+
+      expect(useCartStore.getState().carts[0].items[0].inCart).toBe(false);
+    });
+
+    it('returns error when item not found', () => {
+      useCartStore.setState({
+        carts: [
+          {
+            id: 'c1',
+            name: 'L',
+            items: [{ productId: 'p1', quantity: 1, inCart: false }],
+            createdAt: '',
+            updatedAt: '',
+          },
+        ],
+      });
+
+      const error = useCartStore.getState().toggleInCart('c1', 'p99');
+
+      expect(error).toBe('error.cart.item.notFound');
+    });
+
+    it('does not affect other items', () => {
+      useCartStore.setState({
+        carts: [
+          {
+            id: 'c1',
+            name: 'L',
+            items: [
+              { productId: 'p1', quantity: 1, inCart: false },
+              { productId: 'p2', quantity: 1, inCart: true },
+            ],
+            createdAt: '',
+            updatedAt: '',
+          },
+        ],
+      });
+
+      useCartStore.getState().toggleInCart('c1', 'p1');
+
+      expect(useCartStore.getState().carts[0].items[0].inCart).toBe(true);
+      expect(useCartStore.getState().carts[0].items[1].inCart).toBe(true);
+    });
+
+    it('updates updatedAt timestamp', () => {
+      useCartStore.setState({
+        carts: [
+          {
+            id: 'c1',
+            name: 'L',
+            items: [{ productId: 'p1', quantity: 1, inCart: false }],
+            createdAt: '2024-01-01',
+            updatedAt: '2024-01-01',
+          },
+        ],
+      });
+
+      useCartStore.getState().toggleInCart('c1', 'p1');
+
+      expect(useCartStore.getState().carts[0].updatedAt).not.toBe('2024-01-01');
+    });
   });
 });
