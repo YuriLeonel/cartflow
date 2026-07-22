@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react-native';
+import { fireEvent, render } from '@testing-library/react-native';
 import type React from 'react';
 import CartDetailScreen from '../cart-detail';
 
@@ -20,6 +20,7 @@ const mockProducts = [
 
 const mockRemoveItem = jest.fn();
 const mockUpdateQuantity = jest.fn();
+const mockUpdateCurrentPrice = jest.fn();
 
 jest.mock('react-i18next', () => ({
   useTranslation: () => ({ t: (key: string) => key }),
@@ -57,18 +58,22 @@ jest.mock('@legendapp/list/react-native', () => {
   };
 });
 
+const originalUseCartStore = jest.requireMock('@/stores/useCartStore').useCartStore;
+
 jest.mock('@/stores/useCartStore', () => ({
   useCartStore: (
     selector: (state: {
       carts: (typeof mockCart)[];
       removeItem: typeof mockRemoveItem;
       updateQuantity: typeof mockUpdateQuantity;
+      updateCurrentPrice: typeof mockUpdateCurrentPrice;
     }) => unknown,
   ) => {
     const state = {
       carts: [mockCart],
       removeItem: mockRemoveItem,
       updateQuantity: mockUpdateQuantity,
+      updateCurrentPrice: mockUpdateCurrentPrice,
     };
     return selector(state);
   },
@@ -84,6 +89,8 @@ describe('CartDetailScreen', () => {
   beforeEach(() => {
     mockRemoveItem.mockClear();
     mockUpdateQuantity.mockClear();
+    mockUpdateCurrentPrice.mockClear();
+    jest.requireMock('@/stores/useCartStore').useCartStore = originalUseCartStore;
   });
 
   it('renders cart name as title', async () => {
@@ -120,6 +127,7 @@ describe('CartDetailScreen', () => {
         carts: [emptyCart],
         removeItem: mockRemoveItem,
         updateQuantity: mockUpdateQuantity,
+        updateCurrentPrice: mockUpdateCurrentPrice,
       });
     };
 
@@ -128,12 +136,154 @@ describe('CartDetailScreen', () => {
   });
 
   it('renders add product button', async () => {
-    const { getByText } = await render(<CartDetailScreen />);
-    expect(getByText('cart.addItem')).toBeTruthy();
+    const { getByLabelText } = await render(<CartDetailScreen />);
+    expect(getByLabelText('cart.addItem')).toBeTruthy();
   });
 
   it('renders close button', async () => {
     const { getByLabelText } = await render(<CartDetailScreen />);
     expect(getByLabelText('common.cancel')).toBeTruthy();
+  });
+
+  it('renders set price button for items without currentPrice', async () => {
+    const { getAllByText } = await render(<CartDetailScreen />);
+    expect(getAllByText('cart.setPrice').length).toBeGreaterThanOrEqual(1);
+  });
+
+  it('renders currentPrice when set on an item', async () => {
+    const cartWithPrice = {
+      ...mockCart,
+      items: [
+        { productId: 'p1', quantity: 2, currentPrice: 7.99 },
+        { productId: 'p2', quantity: 1 },
+      ],
+    };
+    jest.requireMock('@/stores/useCartStore').useCartStore = (selector) => {
+      return selector({
+        carts: [cartWithPrice],
+        removeItem: mockRemoveItem,
+        updateQuantity: mockUpdateQuantity,
+        updateCurrentPrice: mockUpdateCurrentPrice,
+      });
+    };
+
+    const { getByText } = await render(<CartDetailScreen />);
+    expect(getByText(/7,99/)).toBeTruthy();
+  });
+
+  it('renders expected and current price together', async () => {
+    const cartWithPrice = {
+      ...mockCart,
+      items: [
+        { productId: 'p1', quantity: 2, currentPrice: 7.99 },
+        { productId: 'p2', quantity: 1 },
+      ],
+    };
+    jest.requireMock('@/stores/useCartStore').useCartStore = (selector) => {
+      return selector({
+        carts: [cartWithPrice],
+        removeItem: mockRemoveItem,
+        updateQuantity: mockUpdateQuantity,
+        updateCurrentPrice: mockUpdateCurrentPrice,
+      });
+    };
+
+    const { getByText } = await render(<CartDetailScreen />);
+    expect(getByText(/8,49/)).toBeTruthy();
+    expect(getByText(/7,99/)).toBeTruthy();
+  });
+
+  it('summary section shows expected total', async () => {
+    const { getByText } = await render(<CartDetailScreen />);
+    expect(getByText('cart.expectedTotal')).toBeTruthy();
+  });
+
+  it('summary section shows current total when items have currentPrice', async () => {
+    const cartWithPrice = {
+      ...mockCart,
+      items: [
+        { productId: 'p1', quantity: 2, currentPrice: 7.99 },
+        { productId: 'p2', quantity: 1 },
+      ],
+    };
+    jest.requireMock('@/stores/useCartStore').useCartStore = (selector) => {
+      return selector({
+        carts: [cartWithPrice],
+        removeItem: mockRemoveItem,
+        updateQuantity: mockUpdateQuantity,
+        updateCurrentPrice: mockUpdateCurrentPrice,
+      });
+    };
+
+    const { getByText } = await render(<CartDetailScreen />);
+    expect(getByText('cart.currentTotal')).toBeTruthy();
+  });
+
+  it('summary section hides current total when no items have currentPrice', async () => {
+    const { queryByText } = await render(<CartDetailScreen />);
+    expect(queryByText('cart.currentTotal')).toBeNull();
+  });
+
+  it('summary shows difference when currentPrice is set', async () => {
+    const cartWithPrice = {
+      ...mockCart,
+      items: [
+        { productId: 'p1', quantity: 2, currentPrice: 7.99 },
+        { productId: 'p2', quantity: 1, currentPrice: 11.5 },
+      ],
+    };
+    jest.requireMock('@/stores/useCartStore').useCartStore = (selector) => {
+      return selector({
+        carts: [cartWithPrice],
+        removeItem: mockRemoveItem,
+        updateQuantity: mockUpdateQuantity,
+        updateCurrentPrice: mockUpdateCurrentPrice,
+      });
+    };
+
+    const { getByText } = await render(<CartDetailScreen />);
+    expect(getByText('cart.overBudget')).toBeTruthy();
+  });
+
+  it('summary shows underBudget when current total is less than expected', async () => {
+    const cartWithPrice = {
+      ...mockCart,
+      items: [
+        { productId: 'p1', quantity: 2, currentPrice: 5.0 },
+        { productId: 'p2', quantity: 1, currentPrice: 5.0 },
+      ],
+    };
+    jest.requireMock('@/stores/useCartStore').useCartStore = (selector) => {
+      return selector({
+        carts: [cartWithPrice],
+        removeItem: mockRemoveItem,
+        updateQuantity: mockUpdateQuantity,
+        updateCurrentPrice: mockUpdateCurrentPrice,
+      });
+    };
+
+    const { getByText } = await render(<CartDetailScreen />);
+    expect(getByText('cart.underBudget')).toBeTruthy();
+  });
+
+  it('summary shows onBudget when difference is zero', async () => {
+    const cartWithPrice = {
+      ...mockCart,
+      items: [
+        { productId: 'p1', quantity: 2, currentPrice: 8.49 },
+        { productId: 'p2', quantity: 1, currentPrice: 9.99 },
+      ],
+    };
+    jest.requireMock('@/stores/useCartStore').useCartStore = (selector) => {
+      return selector({
+        carts: [cartWithPrice],
+        removeItem: mockRemoveItem,
+        updateQuantity: mockUpdateQuantity,
+        updateCurrentPrice: mockUpdateCurrentPrice,
+      });
+    };
+
+    const { getByText } = await render(<CartDetailScreen />);
+    expect(getByText('cart.onBudget')).toBeTruthy();
   });
 });
