@@ -12,7 +12,7 @@ _This file is managed by the Loop Orchestrator. Do not edit status fields manual
 | 1 | Foundation — Navigation & Context | completed | — | 2026-07-06 | 2026-07-06 |
 | 2 | Product Catalog — Search, Categories, CRUD | completed | Phase 1 | 2026-07-08 | 2026-07-10 |
 | 3 | Shopping Lists — Cart Management | completed | Phase 1, 2 | 2026-07-22 | 2026-07-22 |
-| 4 | Pricing & Comparison — Expected vs Current | pending | Phase 3 | — | — |
+| 4 | Pricing & Comparison — Expected vs Current | completed | Phase 3 | 2026-07-22 | 2026-07-22 |
 
 ---
 
@@ -130,7 +130,7 @@ npx expo start     → can create list, add products, edit quantities
 
 ## Phase 4: Pricing & Comparison — Expected vs Current
 
-**Status:** `pending`
+**Status:** `completed`
 **Complexity:** Medium
 **Estimated scope:** <10 tasks
 **Depends on:** Phase 3
@@ -141,13 +141,13 @@ Allow users to register current prices and compare against expected prices, with
 
 ### Deliverables
 
-- [ ] Price input on cart item detail (currentPrice field)
-- [ ] Expected vs current price display per item
-- [ ] Cart totals — expected total, current total, difference
-- [ ] Visual indicators — green (atual ≤ esperado), red (atual > esperado)
-- [ ] Difference in absolute value and percentage
-- [ ] Unit tests for price calculations
-- [ ] All harness sensors pass
+- [x] Price input on cart item detail (currentPrice field)
+- [x] Expected vs current price display per item
+- [x] Cart totals — expected total, current total, difference
+- [x] Visual indicators — green (atual ≤ esperado), red (atual > esperado)
+- [x] Difference in absolute value and percentage
+- [x] Unit tests for price calculations
+- [x] All harness sensors pass
 
 ### Acceptance Criteria
 
@@ -195,4 +195,4 @@ Manual QA          → can set prices, see totals, see color indicators
 
 _Roadmap created: 2026-07-22_
 _Last updated by loop cycle: 2026-07-22_
-_Total cycles completed: 1_
+_Total cycles completed: 2_
