@@ -83,7 +83,7 @@ export const useCartStore = create<CartStore>()(
                     ? { ...item, quantity: item.quantity + quantity }
                     : item,
                 )
-              : [...cart.items, { productId, quantity }];
+              : [...cart.items, { productId, quantity, inCart: false }];
             return { ...cart, items: newItems, updatedAt: new Date().toISOString() };
           }),
         }));

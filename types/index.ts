@@ -10,6 +10,7 @@ export interface CartItem {
   productId: string;
   quantity: number;
   currentPrice?: number;
+  inCart: boolean;
 }
 
 export interface Cart {
