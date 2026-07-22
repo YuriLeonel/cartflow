@@ -114,8 +114,7 @@ export const useCartStore = create<CartStore>()(
                   );
             return { ...cart, items: newItems, updatedAt: new Date().toISOString() };
           }),
-        }));
-      },
+        })),
 
       updateCurrentPrice: (cartId, productId, price) =>
         set((state) => ({
