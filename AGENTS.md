@@ -2,7 +2,7 @@
 
 ## Project status
 
-Greenfield React Native mobile app. Scaffold complete (Expo SDK 52, Expo Router 4, TypeScript strict). Core tooling installed and configured. Ready for feature development.
+React Native mobile app — MVP complete (4/4 phases). Foundation, product catalog, cart management, and price comparison implemented. Ready for polish, E2E testing, or next feature cycle.
 
 ## Authority
 
@@ -54,6 +54,7 @@ AGENTS.md is **authoritative** — agents must follow it unless explicitly overr
 - **Images**: expo-image
 - **Animations**: react-native-reanimated 3
 - **Gestures**: react-native-gesture-handler
+- **Store pattern** — validation functions as exported pure functions (testable independently); Zustand interface lists all actions; MMKV persist with `version` + `migration` for schema evolution
 
 ## Roadmap
 
@@ -87,3 +88,7 @@ npx expo start        # dev server
 - **TLC Spec-driven flow** writes specs to `.specs/features/[feature]/` — spec.md, design.md, tasks.md, validation.md. Commit these files along with implementation code; they are the traceability record for each feature
 - **Unit tests** must be in `__tests__/` or co-located as `*.test.ts` — verify pattern before choosing
 - **Review reports** (code quality, security, UI/UX) are saved alongside the task they belong to under `.specs/features/[feature]/` as `review-[type].md` (e.g. `review-code.md`, `review-ui-ux.md`). The feature folder already carries name, date, and context
+- **`Alert.prompt` is iOS-only** — on Android it's a no-op. Use inline `TextInput` for cross-platform input dialogs
+- **Expo Router type generation** — after adding new screen files, run `npx expo customize` to regenerate route types. Without it, TS complains about missing routes in the typed `href` system
+- **Biome import order** — `react-i18next` import must come before `react-native` imports or the formatter will reorder. Structure: react → react-i18next → react-native → third-party → local
+- **Test mocks needed for screens** — `@expo/vector-icons`, `@legendapp/list`, `expo-router`, `expo-crypto` all need mock entries in Jest config for screen tests to pass

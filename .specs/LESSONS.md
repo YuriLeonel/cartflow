@@ -32,6 +32,36 @@ Seen once or not yet corroborated. Tracked, not trusted.
 - evidence: validation.md: Discrimination Sensor Mutation 1 (navigation testing)
 - last seen: 2026-07-06T23:44:08Z
 
+### L-004 — Mock @expo/vector-icons in screen tests — components using Ionicons crash in Jest without it
+- signal: `test_failure` · recurrence: 2 feature(s) · scope: `screen tests` · harmful: 0
+- features: fase-3-listas, fase-4-precos
+- evidence: CartDetail.test.tsx, ProductPicker.test.tsx — Ionicons not available in test env
+- last seen: 2026-07-22T00:00:00Z
+
+### L-005 — Mock @legendapp/list LegendList in screen tests — native list deps not available in Jest
+- signal: `test_failure` · recurrence: 2 feature(s) · scope: `screen tests` · harmful: 0
+- features: fase-3-listas, fase-4-precos
+- evidence: CartDetail.test.tsx, ProductPicker.test.tsx — LegendList needs mock
+- last seen: 2026-07-22T00:00:00Z
+
+### L-006 — Run npx expo customize after adding new Expo Router screen files — TS route types won't regenerate automatically
+- signal: `type_error` · recurrence: 1 feature(s) · scope: `routing` · harmful: 0
+- features: fase-3-listas
+- evidence: TS complained about missing routes in typed href system until customize was run
+- last seen: 2026-07-22T00:00:00Z
+
+### L-007 — Empty-state tests must not permanently mutate shared store mocks — use beforeEach to reset mock state, otherwise mutations leak into subsequent tests causing false failures
+- signal: `test_flake` · recurrence: 1 feature(s) · scope: `screen tests` · harmful: 0
+- features: fase-4-precos
+- evidence: CartDetail test — empty-state test permanently mutated useCartStore mock
+- last seen: 2026-07-22T00:00:00Z
+
+### L-008 — FAB on Android uses accessibilityLabel not text content — test with getByLabelText, not getByText
+- signal: `test_failure` · recurrence: 1 feature(s) · scope: `screen tests` · harmful: 0
+- features: fase-4-precos
+- evidence: CartDetail FAB test — getByText returned null, getByLabelText worked
+- last seen: 2026-07-22T00:00:00Z
+
 ## Quarantined (failed when applied — ignore)
 
 A confirmed lesson that recurred alongside failure. Kept for the maintainer to review.

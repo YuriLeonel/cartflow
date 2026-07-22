@@ -2,37 +2,28 @@
 
 ## Active Phase
 
-**Current:** Phase 4 — Pricing & Comparison ✅ (completed)
+**None — all 4 MVP phases complete.**
 
-## Completed This Session
+## What Was Completed
 
-- Phase 3: Shopping Lists — Cart Management ✅ (6 commits, 103 tests)
-- Phase 4 T4: i18n keys for pricing ✅
-- Phase 4 T1: `updateCurrentPrice` method added to store ✅
-- Phase 4 T2: CartItemRow price display, tap-to-edit, color indicator ✅
-- Phase 4 T3: Cart summary footer with expected/current/difference totals ✅
-- Phase 4 tests: CartDetail.test.tsx pricing and budget tests ✅
-- Phase 4 harness: lint, typecheck, tests all pass ✅
+| Phase | Status | Date |
+|-------|--------|------|
+| 1 — Navigation & Context | ✅ | 2026-07-06 |
+| 2 — Product Catalog | ✅ | 2026-07-10 |
+| 3 — Shopping Lists | ✅ | 2026-07-22 |
+| 4 — Pricing & Comparison | ✅ | 2026-07-22 |
 
-## Key Files
+## What's Next
 
-- Spec: `.specs/features/fase-4-precos/spec.md`
-- Tasks: `.specs/features/fase-4-precos/tasks.md`
-- Validation: `.specs/features/fase-4-precos/validation.md`
-- Store: `stores/useCartStore.ts` (has updateCurrentPrice)
-- Screen: `app/cart-detail.tsx` (price UI + summary footer)
-- Tests: `app/__tests__/CartDetail.test.tsx` (16 tests)
-- i18n: `i18n/locales/pt-BR.json` (pricing keys)
-- Types: `types/index.ts` (CartItem.currentPrice)
-- Colors: `constants/colors.ts` (secondary=green, error=red)
+MVP core is complete. Potential next directions:
+- Polish: UX improvements, error handling, loading states
+- E2E testing with Playwright or Detox
+- New features: categories, purchase history, barcode scanning (per SoftList reference)
+- Cloud sync (API integration)
 
-## Commits
+## Context for Next Session
 
-- `aa773ee` feat(cart-detail): add price comparison with visual budget indicators
-- `e6b6009` test(cart-detail): add pricing and budget summary tests
-
-## Notes
-
-- All 4 MVP phases complete — foundation, catalog, lists, pricing
-- 116 tests passing across 10 test suites
-- No regressions introduced
+- Read `.specs/roadmap.md` for full roadmap (all 4 phases marked completed)
+- 116 tests across 10 test suites, all passing
+- Biome lint + typecheck clean
+- All specs in `.specs/features/fase-*/` are the traceability record
