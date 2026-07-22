@@ -44,7 +44,9 @@
     "underBudget": "Dentro do orçamento",
     "onBudget": "No orçamento",
     "setPrice": "Definir preço",
-    "noExpectedPrice": "Sem preço esperado"
+    "noExpectedPrice": "Sem preço esperado",
+    "contextRename": "Renomear",
+    "contextDelete": "Excluir"
   },
   "item": {
     "addTitle": "Adicionar à lista",
@@ -56,7 +58,11 @@
     "title": "Minhas Listas",
     "emptyState": "Nenhuma lista criada. Toque em + para começar!",
     "newList": "Nova Lista",
-    "itemCount": "{{count}} itens"
+    "itemCount": "{{count}} itens",
+    "createTitle": "Nova Lista",
+    "renameTitle": "Renomear Lista",
+    "namePlaceholder": "Ex: Compras do mês",
+    "nameRequired": "Nome é obrigatório"
   },
   "error": {
     "product": {
@@ -94,7 +100,10 @@
     "category": "Categoria",
     "expectedPrice": "Preço esperado",
     "pricePlaceholder": "0,00",
-    "withoutCategory": "Sem categoria"
+    "withoutCategory": "Sem categoria",
+    "editProduct": "Editar Produto",
+    "deleteConfirmTitle": "Excluir este produto?",
+    "deleteConfirmMessage": "O produto será removido do catálogo."
   },
   "tabs": {
     "home": "Início",
@@ -110,5 +119,28 @@
   "drawer": {
     "lists": "Listas",
     "products": "Produtos"
+  },
+  "list": {
+    "header": {
+      "selectList": "Selecionar lista",
+      "quickAdd": "Adicionar rápido"
+    },
+    "sections": {
+      "listed": "Encontrados",
+      "cart": "Carrinho"
+    },
+    "footer": {
+      "total": "Total",
+      "picked": "Pego",
+      "items": "itens"
+    },
+    "empty": {
+      "noList": "Nenhuma lista selecionada. Abra o menu e selecione uma lista.",
+      "noItems": "Sua lista está vazia. Toque em + para adicionar produtos!"
+    },
+    "selector": {
+      "title": "Suas Listas",
+      "active": "Selecionada"
+    }
   }
 }
