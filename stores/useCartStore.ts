@@ -28,6 +28,7 @@ interface CartStore {
   removeItem: (cartId: string, productId: string) => void;
   updateQuantity: (cartId: string, productId: string, quantity: number) => void;
   updateCurrentPrice: (cartId: string, productId: string, price?: number) => void;
+  toggleInCart: (cartId: string, productId: string) => string | null;
 }
 
 export const useCartStore = create<CartStore>()(
@@ -129,13 +130,35 @@ export const useCartStore = create<CartStore>()(
             };
           }),
         })),
+
+      toggleInCart: (cartId, productId) => {
+        let found = false;
+        set((state) => ({
+          carts: state.carts.map((cart) => {
+            if (cart.id !== cartId) return cart;
+            return {
+              ...cart,
+              items: cart.items.map((item) => {
+                if (item.productId !== productId) return item;
+                found = true;
+                return { ...item, inCart: !item.inCart };
+              }),
+              updatedAt: new Date().toISOString(),
+            };
+          }),
+        }));
+        return found ? null : 'error.cart.item.notFound';
+      },
     }),
     {
       name: 'cartflow-carts',
       storage: createJSONStorage(() => zustandMMKVStorage),
-      version: 2,
+      version: 3,
       migrate: (persistedState: unknown, version: number) => {
-        const state = persistedState as { carts?: unknown[]; activeCartId?: string | null };
+        const state = persistedState as {
+          carts?: Array<{ items?: Array<{ inCart?: boolean }> }>;
+          activeCartId?: string | null;
+        };
         if (version === 0 || version === 1) {
           const oldCarts = (state?.carts ?? []) as CartSummary[];
           return {
@@ -146,6 +169,18 @@ export const useCartStore = create<CartStore>()(
               items: [],
               createdAt: c.createdAt,
               updatedAt: c.updatedAt,
+            })),
+          };
+        }
+        if (version === 2) {
+          return {
+            ...state,
+            carts: (state?.carts ?? []).map((cart) => ({
+              ...cart,
+              items: (cart.items ?? []).map((item) => ({
+                ...item,
+                inCart: item.inCart ?? false,
+              })),
             })),
           };
         }

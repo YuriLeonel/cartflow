@@ -217,7 +217,7 @@ describe('useCartStore', () => {
       expect(error).toBeNull();
       const items = useCartStore.getState().carts[0].items;
       expect(items).toHaveLength(1);
-      expect(items[0]).toEqual({ productId: 'p1', quantity: 2 });
+      expect(items[0]).toEqual({ productId: 'p1', quantity: 2, inCart: false });
     });
 
     it('increments quantity when adding duplicate product', () => {
