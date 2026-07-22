@@ -8,7 +8,7 @@ export default function RootLayout() {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaProvider>
         <Stack>
-          <Stack.Screen name='(tabs)' />
+          <Stack.Screen name='drawer' options={{ headerShown: false }} />
           <Stack.Screen
             name='product-form'
             options={{
