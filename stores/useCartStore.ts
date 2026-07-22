@@ -27,6 +27,7 @@ interface CartStore {
   addItem: (cartId: string, productId: string, quantity: number) => string | null;
   removeItem: (cartId: string, productId: string) => void;
   updateQuantity: (cartId: string, productId: string, quantity: number) => void;
+  updateCurrentPrice: (cartId: string, productId: string, price?: number) => void;
 }
 
 export const useCartStore = create<CartStore>()(
@@ -61,9 +62,7 @@ export const useCartStore = create<CartStore>()(
         if (error) return error;
         set((state) => ({
           carts: state.carts.map((c) =>
-            c.id === id
-              ? { ...c, name: name.trim(), updatedAt: new Date().toISOString() }
-              : c,
+            c.id === id ? { ...c, name: name.trim(), updatedAt: new Date().toISOString() } : c,
           ),
         }));
         return null;
@@ -114,6 +113,21 @@ export const useCartStore = create<CartStore>()(
                     item.productId === productId ? { ...item, quantity } : item,
                   );
             return { ...cart, items: newItems, updatedAt: new Date().toISOString() };
+          }),
+        }));
+      },
+
+      updateCurrentPrice: (cartId, productId, price) =>
+        set((state) => ({
+          carts: state.carts.map((cart) => {
+            if (cart.id !== cartId) return cart;
+            return {
+              ...cart,
+              items: cart.items.map((item) =>
+                item.productId === productId ? { ...item, currentPrice: price } : item,
+              ),
+              updatedAt: new Date().toISOString(),
+            };
           }),
         })),
     }),

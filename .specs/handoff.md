@@ -2,36 +2,36 @@
 
 ## Active Phase
 
-**Next:** Phase 4 — Pricing & Comparison (pending)
+**Current:** Phase 4 — Pricing & Comparison (in progress)
 
-## Completed Phases
+## Completed This Session
 
-- Phase 1: Foundation — Navigation & Context (2026-07-06)
-- Phase 2: Product Catalog — Search, Categories, CRUD (2026-07-10)
-- Phase 3: Shopping Lists — Cart Management (2026-07-22)
+- Phase 3: Shopping Lists — Cart Management ✅ (6 commits, 103 tests)
+- Phase 4 T4: i18n keys for pricing ✅ (committed implicitly with T1)
+- Phase 4 T1: `updateCurrentPrice` method added to store ✅ (code + tests written, NOT YET COMMITTED)
 
-## Key Decisions This Cycle
+## Remaining Work (Phase 4)
 
-- Expanded `useCartStore` from `CartSummary[]` to `Cart[]` (full carts with items)
-- Added validation functions (`validateCartName`, `validateQuantity`) as exported pure functions
-- Cart detail and product picker as modal Stack screens (consistent with product-form pattern)
-- Quantity decrement at 1 triggers item removal (alert confirmation)
-- List creation uses fallback auto-naming on Android (Alert.prompt not available)
+### Uncommitted changes (T1 + T4):
+- `stores/useCartStore.ts` — added `updateCurrentPrice` method
+- `stores/__tests__/useCartStore.test.ts` — added 4 tests for updateCurrentPrice
+- `i18n/locales/pt-BR.json` — added pricing translation keys
 
-## Open Questions for Next Cycle
+### Still to implement:
+- **T2**: Expand CartItemRow with price display, tap-to-edit, per-item color indicator
+- **T3**: Add cart summary footer with expected/total/difference
+- **T4 tests**: Update CartDetail.test.tsx for pricing features
+- Run full harness (lint + typecheck + tests)
+- Commit all Phase 4 work
+- Update roadmap, STATE.md, handoff.md, validation.md
 
-- Phase 4 depends on Phase 3 ✅ — ready to proceed
-- `currentPrice` is optional on `CartItem` — items work without prices (per spec)
+## Key Files
 
-## Relevant File Paths Changed
-
-- `stores/useCartStore.ts` — expanded with full cart + item management
-- `stores/__tests__/useCartStore.test.ts` — 37 tests
-- `app/cart-detail.tsx` — new screen
-- `app/product-picker.tsx` — new screen
-- `app/(tabs)/lists.tsx` — replaced placeholder with full implementation
-- `app/(tabs)/index.tsx` — wired to cart store
-- `app/_layout.tsx` — registered new modal screens
-- `i18n/locales/pt-BR.json` — added cart/list/item translation keys
-- `types/index.ts` — unchanged (types were already correct)
-- Test files: CartDetail.test.tsx, ProductPicker.test.tsx, HomeScreen.test.tsx (updated), ListsScreen.test.tsx (updated)
+- Spec: `.specs/features/fase-4-precos/spec.md`
+- Tasks: `.specs/features/fase-4-precos/tasks.md`
+- Store: `stores/useCartStore.ts` (has updateCurrentPrice)
+- Screen: `app/cart-detail.tsx` (needs price UI additions)
+- Tests: `stores/__tests__/useCartStore.test.ts`, `app/__tests__/CartDetail.test.tsx`
+- i18n: `i18n/locales/pt-BR.json` (has pricing keys)
+- Types: `types/index.ts` (CartItem.currentPrice already exists)
+- Colors: `constants/colors.ts` (colors.secondary = '#2ECC71' for green indicator)

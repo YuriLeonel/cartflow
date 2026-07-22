@@ -223,7 +223,13 @@ describe('useCartStore', () => {
     it('increments quantity when adding duplicate product', () => {
       useCartStore.setState({
         carts: [
-          { id: 'c1', name: 'L', items: [{ productId: 'p1', quantity: 2 }], createdAt: '', updatedAt: '' },
+          {
+            id: 'c1',
+            name: 'L',
+            items: [{ productId: 'p1', quantity: 2 }],
+            createdAt: '',
+            updatedAt: '',
+          },
         ],
       });
 
@@ -379,6 +385,85 @@ describe('useCartStore', () => {
     });
   });
 
+  describe('updateCurrentPrice', () => {
+    it('sets currentPrice on an item', () => {
+      useCartStore.setState({
+        carts: [
+          {
+            id: 'c1',
+            name: 'L',
+            items: [{ productId: 'p1', quantity: 1 }],
+            createdAt: '',
+            updatedAt: '',
+          },
+        ],
+      });
+
+      useCartStore.getState().updateCurrentPrice('c1', 'p1', 9.99);
+
+      expect(useCartStore.getState().carts[0].items[0].currentPrice).toBe(9.99);
+    });
+
+    it('clears currentPrice when price is undefined', () => {
+      useCartStore.setState({
+        carts: [
+          {
+            id: 'c1',
+            name: 'L',
+            items: [{ productId: 'p1', quantity: 1, currentPrice: 5.0 }],
+            createdAt: '',
+            updatedAt: '',
+          },
+        ],
+      });
+
+      useCartStore.getState().updateCurrentPrice('c1', 'p1', undefined);
+
+      expect(useCartStore.getState().carts[0].items[0].currentPrice).toBeUndefined();
+    });
+
+    it('sets currentPrice to 0 (free item)', () => {
+      useCartStore.setState({
+        carts: [
+          {
+            id: 'c1',
+            name: 'L',
+            items: [{ productId: 'p1', quantity: 1 }],
+            createdAt: '',
+            updatedAt: '',
+          },
+        ],
+      });
+
+      useCartStore.getState().updateCurrentPrice('c1', 'p1', 0);
+
+      expect(useCartStore.getState().carts[0].items[0].currentPrice).toBe(0);
+    });
+
+    it('does not affect other items', () => {
+      useCartStore.setState({
+        carts: [
+          {
+            id: 'c1',
+            name: 'L',
+            items: [
+              { productId: 'p1', quantity: 1 },
+              { productId: 'p2', quantity: 1, currentPrice: 5.0 },
+            ],
+            createdAt: '',
+            updatedAt: '',
+          },
+        ],
+      });
+
+      useCartStore.getState().updateCurrentPrice('c1', 'p1', 9.99);
+
+      const items = useCartStore.getState().carts[0].items;
+      expect(items[0].currentPrice).toBe(9.99);
+      expect(items[1].currentPrice).toBe(5.0);
+    });
+  });
+
   describe('setActiveCart', () => {
     it('sets active cart ID', () => {
       useCartStore.getState().setActiveCart('c1');
@@ -433,9 +518,7 @@ describe('useCartStore', () => {
     it('migrates v1 format (CartSummary[]) to v2 (Cart[])', async () => {
       const v1Data = {
         state: {
-          carts: [
-            { id: 'c1', name: 'Old Cart', createdAt: '2024-01-01', updatedAt: '2024-01-01' },
-          ],
+          carts: [{ id: 'c1', name: 'Old Cart', createdAt: '2024-01-01', updatedAt: '2024-01-01' }],
           activeCartId: null,
         },
         version: 1,

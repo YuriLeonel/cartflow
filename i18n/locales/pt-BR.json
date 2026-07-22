@@ -36,7 +36,15 @@
     "confirmDeleteMessage": "Todos os itens serão removidos.",
     "rename": "Renomear",
     "createdAt": "Criada em",
-    "total": "Total"
+    "total": "Total",
+    "expectedTotal": "Total esperado",
+    "currentTotal": "Total atual",
+    "budgetDifference": "Diferença",
+    "overBudget": "Acima do orçamento",
+    "underBudget": "Dentro do orçamento",
+    "onBudget": "No orçamento",
+    "setPrice": "Definir preço",
+    "noExpectedPrice": "Sem preço esperado"
   },
   "item": {
     "addTitle": "Adicionar à lista",
