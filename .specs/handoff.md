@@ -2,7 +2,7 @@
 
 ## Active Phase
 
-**None — all 4 MVP phases complete.**
+**Next:** Phase R1 — Navigation Refactor (Tabs to Drawer + Data Model)
 
 ## What Was Completed
 
@@ -12,18 +12,29 @@
 | 2 — Product Catalog | ✅ | 2026-07-10 |
 | 3 — Shopping Lists | ✅ | 2026-07-22 |
 | 4 — Pricing & Comparison | ✅ | 2026-07-22 |
+| R1 — Navigation Refactor | ⏳ | — |
+| R2 — List UI | ⏳ | — |
+| R3 — Drawer Screens | ⏳ | — |
+| R4 — Polish | ⏳ | — |
+
+## Refinement Context
+
+MVP core complete (4 phases, 116 tests). Now restructuring for better UX:
+
+- Tabs → Drawer navigation (sidebar for Lists + Products)
+- Home screen becomes the active shopping list
+- New `inCart` field for tracking "picked up" items
+- Full CRUD everywhere (products edit/delete, cross-platform list rename)
+- Warning fixes (Intl API, LegendList)
+
+## Key Decisions
+
+- **Drawer**: Use `expo-router/drawer` with `@react-navigation/drawer` (SDK 52 compatible)
+- **List selector**: Header dropdown/modal (not Alert.prompt) for cross-platform
+- **inCart toggle**: Checkbox per item, moves item between "Listed" and "Cart" sections
+- **Footer**: Dual panel showing total vs cart counts and costs
+- **Product edit**: Reuse product-form.tsx with productId param for edit mode
 
 ## What's Next
 
-MVP core is complete. Potential next directions:
-- Polish: UX improvements, error handling, loading states
-- E2E testing with Playwright or Detox
-- New features: categories, purchase history, barcode scanning (per SoftList reference)
-- Cloud sync (API integration)
-
-## Context for Next Session
-
-- Read `.specs/roadmap.md` for full roadmap (all 4 phases marked completed)
-- 116 tests across 10 test suites, all passing
-- Biome lint + typecheck clean
-- All specs in `.specs/features/fase-*/` are the traceability record
+Start Phase R1 with the loop orchestrator. Read `.specs/roadmap.md` for full phase details.
