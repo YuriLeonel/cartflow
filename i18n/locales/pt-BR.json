@@ -77,6 +77,9 @@
       "quantity": {
         "positive": "Quantidade deve ser maior que zero",
         "max": "Quantidade máxima é 999"
+      },
+      "item": {
+        "notFound": "Item não encontrado na lista"
       }
     }
   },
@@ -103,5 +106,9 @@
     "listsA11y": "Listas",
     "productsA11y": "Produtos",
     "profileA11y": "Perfil"
+  },
+  "drawer": {
+    "lists": "Listas",
+    "products": "Produtos"
   }
 }
