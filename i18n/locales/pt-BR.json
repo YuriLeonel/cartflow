@@ -18,14 +18,37 @@
     "newCart": "Nova Lista",
     "myCarts": "Minhas Listas",
     "emptyState": "Você ainda não tem listas. Crie sua primeira lista de compras!",
-    "newCartA11y": "Criar nova lista de compras"
+    "newCartA11y": "Criar nova lista de compras",
+    "recentLists": "Listas Recentes"
   },
   "cart": {
-    "total": "Total",
+    "title": "Lista",
+    "name": "Nome da lista",
+    "namePlaceholder": "Ex: Compras do mês",
     "items": "itens",
     "expectedPrice": "Preço esperado",
     "currentPrice": "Preço atual",
-    "difference": "Diferença"
+    "difference": "Diferença",
+    "emptyState": "Sua lista está vazia. Adicione produtos!",
+    "addItem": "Adicionar produto",
+    "noItems": "Nenhum item",
+    "confirmDelete": "Excluir esta lista?",
+    "confirmDeleteMessage": "Todos os itens serão removidos.",
+    "rename": "Renomear",
+    "createdAt": "Criada em",
+    "total": "Total"
+  },
+  "item": {
+    "addTitle": "Adicionar à lista",
+    "quantity": "Quantidade",
+    "remove": "Remover",
+    "confirmRemove": "Remover este item da lista?"
+  },
+  "lists": {
+    "title": "Minhas Listas",
+    "emptyState": "Nenhuma lista criada. Toque em + para começar!",
+    "newList": "Nova Lista",
+    "itemCount": "{{count}} itens"
   },
   "error": {
     "product": {
@@ -37,6 +60,16 @@
         "positive": "Preço deve ser positivo"
       },
       "save": "Erro ao salvar produto"
+    },
+    "cart": {
+      "name": {
+        "required": "Nome da lista é obrigatório",
+        "maxLength": "Nome muito longo (máx. 50 caracteres)"
+      },
+      "quantity": {
+        "positive": "Quantidade deve ser maior que zero",
+        "max": "Quantidade máxima é 999"
+      }
     }
   },
   "products": {
