@@ -23,6 +23,7 @@ AGENTS.md is **authoritative** — agents must follow it unless explicitly overr
 | When | Skill |
 |------|-------|
 | Planning a feature | `brainstorming` → `writing-plans` |
+| Roadmap execution | `loop-orchestrator` (autonomous multi-phase execution via tlc-spec-driven cycles) |
 | Feature dev workflow | `tlc-spec-driven` (spec → design → tasks → implement → validate with atomic commits) |
 | Building screens | `react-native-expert` |
 | Performance review | `react-best-practices` |
@@ -56,7 +57,7 @@ AGENTS.md is **authoritative** — agents must follow it unless explicitly overr
 
 ## Roadmap
 
-The full MVP roadmap is defined in `docs/ROADMAP.md`. Always read it at the start of a session to understand the current phase and next steps. Each feature follows the `ROADMAP.md` phase order.
+The MVP roadmap is defined in `.specs/roadmap.md` (managed by the Loop Orchestrator). Read it at the start of each session to understand the current phase and next steps. The old `docs/ROADMAP.md` is deprecated — use `.specs/roadmap.md` as the single source of truth.
 
 ## Setup complete
 

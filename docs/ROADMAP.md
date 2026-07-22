@@ -1,4 +1,7 @@
-# Cartflow — MVP Roadmap
+> **DEPRECATED** — This file is superseded by `.specs/roadmap.md` (managed by the Loop Orchestrator).
+> Kept for reference. The authoritative roadmap is now at `.specs/roadmap.md`.
+
+# Cartflow — MVP Roadmap (legacy)
 
 Roadmap evolutivo para o MVP do Cartflow, organizado em fases com dependências claras. Cada fase produz uma feature completa e testável.
 
