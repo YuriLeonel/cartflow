@@ -11,7 +11,7 @@ _This file is managed by the Loop Orchestrator. Do not edit status fields manual
 |---|-------|--------|------------|---------|-----------|
 | 1 | Foundation — Navigation & Context | completed | — | 2026-07-06 | 2026-07-06 |
 | 2 | Product Catalog — Search, Categories, CRUD | completed | Phase 1 | 2026-07-08 | 2026-07-10 |
-| 3 | Shopping Lists — Cart Management | pending | Phase 1, 2 | — | — |
+| 3 | Shopping Lists — Cart Management | completed | Phase 1, 2 | 2026-07-22 | 2026-07-22 |
 | 4 | Pricing & Comparison — Expected vs Current | pending | Phase 3 | — | — |
 
 ---
@@ -91,7 +91,7 @@ npx expo start     → can list, search, filter, and add products
 
 ## Phase 3: Shopping Lists — Cart Management
 
-**Status:** `pending`
+**Status:** `completed`
 **Complexity:** Large
 **Estimated scope:** 10-15 tasks
 **Depends on:** Phase 1, 2
@@ -102,13 +102,13 @@ Core of the app — create shopping lists, add products from the catalog, manage
 
 ### Deliverables
 
-- [ ] CartStore — CRUD for carts and items (productId, quantity)
-- [ ] Lists screen — create, rename, delete shopping lists
-- [ ] Cart detail screen — view items, totals, add/remove products
-- [ ] Add item screen — select product from catalog, set quantity
-- [ ] MMKV persistence for carts
-- [ ] Unit tests for store logic and key flows
-- [ ] All harness sensors pass
+- [x] CartStore — CRUD for carts and items (productId, quantity)
+- [x] Lists screen — create, rename, delete shopping lists
+- [x] Cart detail screen — view items, totals, add/remove products
+- [x] Add item screen — select product from catalog, set quantity
+- [x] MMKV persistence for carts
+- [x] Unit tests for store logic and key flows
+- [x] All harness sensors pass
 
 ### Acceptance Criteria
 
@@ -194,5 +194,5 @@ Manual QA          → can set prices, see totals, see color indicators
 ---
 
 _Roadmap created: 2026-07-22_
-_Last updated by loop cycle: —_
-_Total cycles completed: 0_
+_Last updated by loop cycle: 2026-07-22_
+_Total cycles completed: 1_
