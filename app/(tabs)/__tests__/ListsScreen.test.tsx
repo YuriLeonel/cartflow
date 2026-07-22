@@ -2,7 +2,13 @@ import { render } from '@testing-library/react-native';
 import type React from 'react';
 import ListsScreen from '../lists';
 
-const mockCarts: Array<{ id: string; name: string; items: Array<{ productId: string; quantity: number }>; createdAt: string; updatedAt: string }> = [];
+const mockCarts: Array<{
+  id: string;
+  name: string;
+  items: Array<{ productId: string; quantity: number }>;
+  createdAt: string;
+  updatedAt: string;
+}> = [];
 const mockAddCart = jest.fn();
 const mockRemoveCart = jest.fn();
 const mockRenameCart = jest.fn();
@@ -43,8 +49,20 @@ jest.mock('@legendapp/list/react-native', () => {
 });
 
 jest.mock('@/stores/useCartStore', () => ({
-  useCartStore: (selector: (state: { carts: typeof mockCarts; addCart: typeof mockAddCart; removeCart: typeof mockRemoveCart; renameCart: typeof mockRenameCart }) => unknown) =>
-    selector({ carts: mockCarts, addCart: mockAddCart, removeCart: mockRemoveCart, renameCart: mockRenameCart }),
+  useCartStore: (
+    selector: (state: {
+      carts: typeof mockCarts;
+      addCart: typeof mockAddCart;
+      removeCart: typeof mockRemoveCart;
+      renameCart: typeof mockRenameCart;
+    }) => unknown,
+  ) =>
+    selector({
+      carts: mockCarts,
+      addCart: mockAddCart,
+      removeCart: mockRemoveCart,
+      renameCart: mockRenameCart,
+    }),
 }));
 
 describe('ListsScreen', () => {
