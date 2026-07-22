@@ -6,7 +6,7 @@ import { LegendList } from '@legendapp/list/react-native';
 import { useRouter } from 'expo-router';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Platform, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Alert, Platform, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 interface CategorySection {
@@ -27,29 +27,33 @@ type ListItem = CategorySection | ProductItem;
 const formatPrice = (price: number): string =>
   new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(price);
 
-const ProductListItem = React.memo(({ item }: { item: ListItem }) => {
-  if (item.type === 'category') {
-    return <Text style={styles.categoryHeader}>{item.category}</Text>;
-  }
-  return (
-    <View
-      style={styles.productCard}
-      accessibilityRole='summary'
-      accessibilityLabel={`${item.name}${item.expectedPrice !== undefined ? `, ${formatPrice(item.expectedPrice)}` : ''}`}
-    >
-      <Text style={styles.productName}>{item.name}</Text>
-      {item.expectedPrice !== undefined && (
-        <Text style={styles.productPrice}>{formatPrice(item.expectedPrice)}</Text>
-      )}
-    </View>
-  );
-});
+const ProductListItem = React.memo(
+  ({ item, onLongPress }: { item: ListItem; onLongPress?: () => void }) => {
+    if (item.type === 'category') {
+      return <Text style={styles.categoryHeader}>{item.category}</Text>;
+    }
+    return (
+      <Pressable
+        style={styles.productCard}
+        onLongPress={onLongPress}
+        accessibilityRole='summary'
+        accessibilityLabel={`${item.name}${item.expectedPrice !== undefined ? `, ${formatPrice(item.expectedPrice)}` : ''}`}
+      >
+        <Text style={styles.productName}>{item.name}</Text>
+        {item.expectedPrice !== undefined && (
+          <Text style={styles.productPrice}>{formatPrice(item.expectedPrice)}</Text>
+        )}
+      </Pressable>
+    );
+  },
+);
 
 export default function ProductsScreen() {
   const { t } = useTranslation();
   const router = useRouter();
   const insets = useSafeAreaInsets();
   const products = useProductStore((s) => s.products);
+  const removeProduct = useProductStore((s) => s.removeProduct);
   const seedIfEmpty = useProductStore((s) => s.seedIfEmpty);
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -100,6 +104,26 @@ export default function ProductsScreen() {
   const isSearching = searchQuery.trim().length > 0;
   const showNoResults = isSearching && filteredProducts.length === 0;
 
+  const handleLongPress = (product: ProductItem) => {
+    Alert.alert(product.name, undefined, [
+      {
+        text: t('common.edit'),
+        onPress: () => router.push({ pathname: '/product-form', params: { productId: product.id } }),
+      },
+      {
+        text: t('common.delete'),
+        style: 'destructive',
+        onPress: () => {
+          Alert.alert(t('products.deleteConfirmTitle'), t('products.deleteConfirmMessage'), [
+            { text: t('common.cancel'), style: 'cancel' },
+            { text: t('common.delete'), style: 'destructive', onPress: () => removeProduct(product.id) },
+          ]);
+        },
+      },
+      { text: t('common.cancel'), style: 'cancel' },
+    ]);
+  };
+
   if (products.length === 0) {
     return (
       <View style={[styles.container, { paddingTop: insets.top + spacing.lg }]}>
@@ -144,7 +168,12 @@ export default function ProductsScreen() {
           estimatedItemSize={64}
           keyExtractor={(item) => (item.type === 'category' ? `cat-${item.category}` : item.id)}
           stickyHeaderIndices={stickyIndices}
-          renderItem={({ item }) => <ProductListItem item={item} />}
+          renderItem={({ item }) => (
+            <ProductListItem
+              item={item}
+              onLongPress={item.type === 'product' ? () => handleLongPress(item) : undefined}
+            />
+          )}
         />
       )}
       <Pressable
