@@ -2,6 +2,7 @@
 
 **Created:** 2026-07-22
 **Total tasks:** 12
+**Status:** ✅ Complete
 
 ---
 
@@ -21,25 +22,25 @@ T11 → T12 (harness validation)
 
 ## Tasks
 
-### T1: Install drawer dependencies
+### T1: Install drawer dependencies ✅
 
 **Files:** `package.json`
 **Action:** Run `npx expo install @react-navigation/drawer @react-navigation/native`
 **Verify:** `npm run typecheck` passes, packages appear in package.json
-**Commit:** `feat: install drawer navigation dependencies`
+**Commit:** `713ec5a`
 
 ---
 
-### T2: Add `inCart` field to CartItem type
+### T2: Add `inCart` field to CartItem type ✅
 
-**Files:** `types/index.ts`
-**Action:** Add `inCart: boolean` to `CartItem` interface
+**Files:** `types/index.ts`, `stores/useCartStore.ts`
+**Action:** Add `inCart: boolean` to `CartItem` interface + fix addItem to include `inCart: false`
 **Verify:** `npm run typecheck` passes
-**Commit:** `feat: add inCart field to CartItem type`
+**Commit:** `eb7ceef`
 
 ---
 
-### T3: Add MMKV migration + toggleInCart action
+### T3: Add MMKV migration + toggleInCart action ✅
 
 **Files:** `stores/useCartStore.ts`
 **Action:**
@@ -47,23 +48,24 @@ T11 → T12 (harness validation)
 2. Add migration: `inCart: false` for all existing items
 3. Add `toggleInCart(cartId, productId)` action
 **Verify:** `npm run typecheck` passes, `npm run test` passes
-**Commit:** `feat: add toggleInCart action and MMKV v3 migration`
+**Commit:** `4da59dd`
 
 ---
 
-### T4: Create drawer layout
+### T4: Create drawer layout ✅
 
-**Files:** `app/drawer/_layout.tsx` (new)
+**Files:** `app/drawer/_layout.tsx` (new), `app/drawer/lists.tsx`, `app/drawer/products.tsx`, `i18n/locales/pt-BR.json`
 **Action:**
 1. Create `app/drawer/` directory
 2. Create `_layout.tsx` with `Drawer` from `expo-router/drawer`
 3. Two entries: Lists (icon: list), Products (icon: cart)
+4. Add drawer i18n keys
 **Verify:** `npm run typecheck` passes
-**Commit:** `feat: create drawer layout with Lists and Products entries`
+**Commit:** `fac66b7`
 
 ---
 
-### T5: Update root layout
+### T5: Update root layout ✅
 
 **Files:** `app/_layout.tsx`
 **Action:**
@@ -71,44 +73,44 @@ T11 → T12 (harness validation)
 2. Add `drawer` group reference
 3. Keep modals at Stack level
 **Verify:** `npm run typecheck` passes
-**Commit:** `refactor: update root layout to use drawer instead of tabs`
+**Commit:** `9115518`
 
 ---
 
-### T6: Move index.tsx to root
+### T6: Move index.tsx to root ✅
 
 **Files:** `app/(tabs)/index.tsx` → `app/index.tsx`
 **Action:**
 1. Move file from `app/(tabs)/index.tsx` to `app/index.tsx`
 2. Update imports if needed
 **Verify:** `npm run typecheck` passes
-**Commit:** `refactor: move home screen to root level for drawer content`
+**Commit:** `f2b91ba`
 
 ---
 
-### T7: Move lists.tsx to drawer
+### T7: Move lists.tsx to drawer ✅
 
 **Files:** `app/(tabs)/lists.tsx` → `app/drawer/lists.tsx`
 **Action:**
 1. Move file from `app/(tabs)/lists.tsx` to `app/drawer/lists.tsx`
 2. Update imports if needed
 **Verify:** `npm run typecheck` passes
-**Commit:** `refactor: move lists screen to drawer`
+**Commit:** `b0dc87d`
 
 ---
 
-### T8: Move products.tsx to drawer
+### T8: Move products.tsx to drawer ✅
 
 **Files:** `app/(tabs)/products.tsx` → `app/drawer/products.tsx`
 **Action:**
 1. Move file from `app/(tabs)/products.tsx` to `app/drawer/products.tsx`
 2. Update imports if needed
 **Verify:** `npm run typecheck` passes
-**Commit:** `refactor: move products screen to drawer`
+**Commit:** `1e5dd0c`
 
 ---
 
-### T9: Delete old tab files
+### T9: Delete old tab files ✅
 
 **Files:** `app/(tabs)/_layout.tsx`, `app/(tabs)/profile.tsx`, `app/(tabs)/` directory
 **Action:**
@@ -116,11 +118,11 @@ T11 → T12 (harness validation)
 2. Delete `app/(tabs)/_layout.tsx`
 3. Remove `app/(tabs)/` directory
 **Verify:** `npm run typecheck` passes
-**Commit:** `refactor: remove old tab navigation files`
+**Commit:** `bce057a`
 
 ---
 
-### T10: Update existing tests
+### T10: Update existing tests ✅
 
 **Files:** `app/__tests__/`, `app/drawer/__tests__/`
 **Action:**
@@ -131,11 +133,11 @@ T11 → T12 (harness validation)
 5. Delete `TabLayout.test.tsx`
 6. Update mocks for new drawer structure
 **Verify:** `npm run test` passes
-**Commit:** `test: update tests for drawer navigation structure`
+**Commit:** `1dc7a92`
 
 ---
 
-### T11: Add new tests
+### T11: Add new tests ✅
 
 **Files:** `app/__tests__/RootLayout.test.tsx`, `app/drawer/__tests__/DrawerLayout.test.tsx`, `stores/__tests__/useCartStore.test.ts`
 **Action:**
@@ -144,11 +146,11 @@ T11 → T12 (harness validation)
 3. Add toggleInCart tests to useCartStore
 4. Add v3 migration tests to useCartStore
 **Verify:** `npm run test` passes
-**Commit:** `test: add tests for drawer layout and toggleInCart`
+**Commit:** `abd4bc5`
 
 ---
 
-### T12: Run full harness validation
+### T12: Run full harness validation ✅
 
 **Files:** none (validation only)
 **Action:**
