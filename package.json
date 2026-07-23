@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "expo-router/entry",
   "dependencies": {
+    "@babel/plugin-transform-class-static-block": "^7.29.7",
     "@formatjs/intl-pluralrules": "^6.3.13",
     "@legendapp/list": "^3.3.2",
     "@react-navigation/drawer": "^7.13.4",

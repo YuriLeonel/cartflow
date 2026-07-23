@@ -7,10 +7,12 @@
     "error": "Erro",
     "save": "Salvar",
     "cancel": "Cancelar",
+    "close": "Fechar",
     "delete": "Excluir",
     "edit": "Editar",
     "search": "Buscar",
-    "confirm": "Confirmar"
+    "confirm": "Confirmar",
+    "openMenu": "Abrir menu"
   },
   "home": {
     "title": "Olá!",
@@ -51,8 +53,13 @@
   "item": {
     "addTitle": "Adicionar à lista",
     "quantity": "Quantidade",
+    "decreaseQuantity": "Diminuir quantidade",
+    "increaseQuantity": "Aumentar quantidade",
     "remove": "Remover",
-    "confirmRemove": "Remover este item da lista?"
+    "confirmRemove": "Remover este item da lista?",
+    "uncheck": "Desmarcar",
+    "checkPicked": "Marcar como pego",
+    "productFallback": "Produto"
   },
   "lists": {
     "title": "Minhas Listas",

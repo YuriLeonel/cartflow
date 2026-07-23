@@ -2,6 +2,7 @@ import { colors } from '@/constants/colors';
 import { fontSize, fontWeight, spacing } from '@/constants/layout';
 import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 interface ListHeaderProps {
@@ -21,12 +22,13 @@ export function ListHeader({
   selectListLabel,
   quickAddLabel,
 }: ListHeaderProps) {
+  const { t } = useTranslation();
   return (
     <View style={styles.container}>
       <Pressable
         style={styles.iconButton}
         onPress={onMenuPress}
-        accessibilityLabel='Abrir menu'
+        accessibilityLabel={t('common.openMenu')}
         accessibilityRole='button'
       >
         <Ionicons name='menu' size={24} color={colors.text} />

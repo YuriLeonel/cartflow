@@ -4,6 +4,7 @@ import { useProductStore } from '@/stores/useProductStore';
 import type { CartItem } from '@/types';
 import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { formatPrice, getDisplayPrice, getPriceColor } from './list-utils';
 
@@ -22,6 +23,7 @@ export const CartItemRow = React.memo(function CartItemRow({
   onIncrement,
   onDecrement,
 }: CartItemRowProps) {
+  const { t } = useTranslation();
   const product = useProductStore((s) => s.products.find((p) => p.id === item.productId));
   const priceColor = getPriceColor(item, product);
   const displayPrice = getDisplayPrice(item, product);
@@ -42,7 +44,7 @@ export const CartItemRow = React.memo(function CartItemRow({
         onPress={onToggle}
         accessibilityRole='checkbox'
         accessibilityState={{ checked: item.inCart }}
-        accessibilityLabel={item.inCart ? 'Desmarcar' : 'Marcar como pego'}
+        accessibilityLabel={item.inCart ? t('item.uncheck') : t('item.checkPicked')}
       >
         <Ionicons
           name={item.inCart ? 'checkbox' : 'square-outline'}
@@ -53,7 +55,7 @@ export const CartItemRow = React.memo(function CartItemRow({
 
       <View style={styles.info}>
         <Text style={styles.name} numberOfLines={2}>
-          {product?.name ?? 'Produto'}
+          {product?.name ?? t('item.productFallback')}
         </Text>
         <Text style={styles.price}>{displayPrice}</Text>
       </View>
@@ -62,7 +64,7 @@ export const CartItemRow = React.memo(function CartItemRow({
         <Pressable
           style={styles.quantityButton}
           onPress={onDecrement}
-          accessibilityLabel='Diminuir quantidade'
+          accessibilityLabel={t('item.decreaseQuantity')}
           accessibilityRole='button'
         >
           <Ionicons name='remove' size={16} color={colors.primary} />
@@ -71,7 +73,7 @@ export const CartItemRow = React.memo(function CartItemRow({
         <Pressable
           style={styles.quantityButton}
           onPress={onIncrement}
-          accessibilityLabel='Aumentar quantidade'
+          accessibilityLabel={t('item.increaseQuantity')}
           accessibilityRole='button'
         >
           <Ionicons name='add' size={16} color={colors.primary} />

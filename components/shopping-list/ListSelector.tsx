@@ -4,6 +4,7 @@ import type { Cart } from '@/types';
 import { Ionicons } from '@expo/vector-icons';
 import { LegendList } from '@legendapp/list/react-native';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Modal, Pressable, StyleSheet, Text, View } from 'react-native';
 
 interface ListSelectorProps {
@@ -25,6 +26,7 @@ export function ListSelector({
   title,
   activeLabel,
 }: ListSelectorProps) {
+  const { t } = useTranslation();
   const handleSelect = (cartId: string) => {
     onSelect(cartId);
     onClose();
@@ -36,7 +38,7 @@ export function ListSelector({
         <Pressable style={styles.content} onPress={(e) => e.stopPropagation()}>
           <Text style={styles.title}>{title}</Text>
           {carts.length === 0 ? (
-            <Text style={styles.emptyText}>Nenhuma lista criada</Text>
+            <Text style={styles.emptyText}>{t('lists.emptyState')}</Text>
           ) : (
             <LegendList
               data={carts}
@@ -64,8 +66,12 @@ export function ListSelector({
               }}
             />
           )}
-          <Pressable style={styles.closeButton} onPress={onClose} accessibilityLabel='Fechar'>
-            <Text style={styles.closeText}>Fechar</Text>
+          <Pressable
+            style={styles.closeButton}
+            onPress={onClose}
+            accessibilityLabel={t('common.close')}
+          >
+            <Text style={styles.closeText}>{t('common.close')}</Text>
           </Pressable>
         </Pressable>
       </Pressable>

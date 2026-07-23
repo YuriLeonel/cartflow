@@ -4,7 +4,6 @@ import { useCartStore } from '@/stores/useCartStore';
 import { useProductStore } from '@/stores/useProductStore';
 import { Ionicons } from '@expo/vector-icons';
 import { LegendList } from '@legendapp/list/react-native';
-import { useDrawerStatus } from '@react-navigation/drawer';
 import { useRouter } from 'expo-router';
 import React, { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -24,7 +23,6 @@ export default function MainShoppingList() {
   const { t } = useTranslation();
   const router = useRouter();
   const insets = useSafeAreaInsets();
-  const drawerStatus = useDrawerStatus();
 
   const carts = useCartStore((s) => s.carts);
   const activeCartId = useCartStore((s) => s.activeCartId);

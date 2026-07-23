@@ -172,7 +172,7 @@ Manual QA          → can set prices, see totals, see color indicators
 
 ## Phase R1: Navigation Refactor — Tabs to Drawer + Data Model
 
-**Status:** `pending`
+**Status:** `completed`
 **Complexity:** High
 **Estimated scope:** <12 tasks
 **Depends on:** Phase 4
@@ -205,18 +205,18 @@ Current:                          New:
 
 ### Deliverables
 
-- [ ] Replace `(tabs)/_layout.tsx` with `drawer/_layout.tsx` using `Drawer` from `expo-router/drawer`
-- [ ] Move `app/(tabs)/index.tsx` → `app/index.tsx` (main shopping list, outside drawer)
-- [ ] Move `app/(tabs)/lists.tsx` → `app/drawer/lists.tsx` (inside drawer)
-- [ ] Move `app/(tabs)/products.tsx` → `app/drawer/products.tsx` (inside drawer)
-- [ ] Delete `app/(tabs)/profile.tsx` and remove profile tab
-- [ ] Delete `app/(tabs)/_layout.tsx` (old tab layout)
-- [ ] Update `app/_layout.tsx` root Stack to include drawer + modals
-- [ ] Add `inCart: boolean` field to `CartItem` type in `types/index.ts`
-- [ ] Add MMKV store migration (v2 → v3) for `inCart` field defaulting to `false`
-- [ ] Add `toggleInCart(cartId, productId)` action to `useCartStore`
-- [ ] Wire `setActiveCart(cartId)` to list selector (already exists in store)
-- [ ] Install `@react-navigation/drawer` and `@react-navigation/native` (required for SDK 52 drawer)
+- [x] Replace `(tabs)/_layout.tsx` with `drawer/_layout.tsx` using `Drawer` from `expo-router/drawer`
+- [x] Move `app/(tabs)/index.tsx` → `app/index.tsx` (main shopping list, outside drawer)
+- [x] Move `app/(tabs)/lists.tsx` → `app/drawer/lists.tsx` (inside drawer)
+- [x] Move `app/(tabs)/products.tsx` → `app/drawer/products.tsx` (inside drawer)
+- [x] Delete `app/(tabs)/profile.tsx` and remove profile tab
+- [x] Delete `app/(tabs)/_layout.tsx` (old tab layout)
+- [x] Update `app/_layout.tsx` root Stack to include drawer + modals
+- [x] Add `inCart: boolean` field to `CartItem` type in `types/index.ts`
+- [x] Add MMKV store migration (v2 → v3) for `inCart` field defaulting to `false`
+- [x] Add `toggleInCart(cartId, productId)` action to `useCartStore`
+- [x] Wire `setActiveCart(cartId)` to list selector (already exists in store)
+- [x] Install `@react-navigation/drawer` and `@react-navigation/native` (required for SDK 52 drawer)
 
 ### Acceptance Criteria
 
@@ -276,21 +276,21 @@ The UI follows a shopping list app pattern:
 
 ### Deliverables
 
-- [ ] Create `ListHeader` component — hamburger icon, list name selector dropdown, quick-add icon
-- [ ] Create `ListFooter` component — dual panel: total items/cost + cart items/cost
-- [ ] Create `CartItemRow` component — checkbox, name, quantity +/-, price, color indicator
-- [ ] Create `SectionHeader` component — "Listed" / "Cart" section dividers
-- [ ] Create `EmptyListState` component — instructional overlay with arrow
-- [ ] Create `ListSelector` component — dropdown/modal to switch between lists
-- [ ] Implement `app/index.tsx` — main shopping list screen using LegendList with sections
-- [ ] Wire `toggleInCart` to checkbox — tapping moves item between sections
-- [ ] Wire list selector to `setActiveCart` — switching lists refreshes the view
-- [ ] Compute and display totals in footer (listed total, cart total, both counts)
-- [ ] Handle empty state — no lists created yet, empty list, etc.
-- [ ] Handle list creation from header (quick-add or dropdown)
-- [ ] Handle list deletion from selector
-- [ ] Add unit tests for toggleInCart, getCartTotals, section splitting logic
-- [ ] Add integration tests for ListHeader, ListFooter, CartItemRow
+- [x] Create `ListHeader` component — hamburger icon, list name selector dropdown, quick-add icon
+- [x] Create `ListFooter` component — dual panel: total items/cost + cart items/cost
+- [x] Create `CartItemRow` component — checkbox, name, quantity +/-, price, color indicator
+- [x] Create `SectionHeader` component — "Listed" / "Cart" section dividers
+- [x] Create `EmptyListState` component — instructional overlay with arrow
+- [x] Create `ListSelector` component — dropdown/modal to switch between lists
+- [x] Implement `app/index.tsx` — main shopping list screen using LegendList with sections
+- [x] Wire `toggleInCart` to checkbox — tapping moves item between sections
+- [x] Wire list selector to `setActiveCart` — switching lists refreshes the view
+- [x] Compute and display totals in footer (listed total, cart total, both counts)
+- [x] Handle empty state — no lists created yet, empty list, etc.
+- [x] Handle list creation from header (quick-add or dropdown)
+- [x] Handle list deletion from selector
+- [x] Add unit tests for toggleInCart, getCartTotals, section splitting logic
+- [x] Add integration tests for ListHeader, ListFooter, CartItemRow
 
 ### Acceptance Criteria
 
@@ -339,7 +339,7 @@ app/index.tsx
 
 ## Phase R3: Drawer Screens — Lists CRUD + Products CRUD
 
-**Status:** `pending`
+**Status:** `completed`
 **Complexity:** Medium
 **Estimated scope:** <10 tasks
 **Depends on:** R1
@@ -350,17 +350,17 @@ Implement the sidebar drawer screens with full CRUD for both lists and products.
 
 ### Deliverables
 
-- [ ] Implement `app/drawer/lists.tsx` — list management screen with full CRUD
-- [ ] Cross-platform list creation — inline TextInput (not Alert.prompt)
-- [ ] Cross-platform list rename — inline TextInput in edit mode
-- [ ] List delete with confirmation dialog
-- [ ] Long-press context menu for list actions (rename, delete)
-- [ ] Implement `app/drawer/products.tsx` — product catalog with full CRUD
-- [ ] Product delete with confirmation (long-press → delete)
-- [ ] Product edit — long-press → navigate to product-form with productId param
-- [ ] Update `app/product-form.tsx` — support edit mode (pre-fill fields, call updateProduct)
-- [ ] Add unit tests for new CRUD flows
-- [ ] Add integration tests for drawer screens
+- [x] Implement `app/drawer/lists.tsx` — list management screen with full CRUD
+- [x] Cross-platform list creation — inline TextInput (not Alert.prompt)
+- [x] Cross-platform list rename — inline TextInput in edit mode
+- [x] List delete with confirmation dialog
+- [x] Long-press context menu for list actions (rename, delete)
+- [x] Implement `app/drawer/products.tsx` — product catalog with full CRUD
+- [x] Product delete with confirmation (long-press → delete)
+- [x] Product edit — long-press → navigate to product-form with productId param
+- [x] Update `app/product-form.tsx` — support edit mode (pre-fill fields, call updateProduct)
+- [x] Add unit tests for new CRUD flows
+- [x] Add integration tests for drawer screens
 
 ### Acceptance Criteria
 
