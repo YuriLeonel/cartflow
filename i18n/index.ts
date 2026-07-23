@@ -1,5 +1,5 @@
 import '@formatjs/intl-pluralrules/polyfill';
-import '@formatjs/intl-pluralrules/locale-data/pt-BR';
+import '@formatjs/intl-pluralrules/locale-data/pt';
 
 import * as Localization from 'expo-localization';
 import i18n from 'i18next';
