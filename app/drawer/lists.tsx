@@ -94,7 +94,9 @@ function NameInputModal({
               onPress={handleConfirm}
               disabled={!isValid}
             >
-              <Text style={[styles.modalConfirmText, !isValid ? styles.modalConfirmTextDisabled : null]}>
+              <Text
+                style={[styles.modalConfirmText, !isValid ? styles.modalConfirmTextDisabled : null]}
+              >
                 {t('common.confirm')}
               </Text>
             </Pressable>
@@ -180,6 +182,7 @@ export default function ListsScreen() {
         <LegendList
           data={sortedCarts}
           estimatedItemSize={72}
+          recycleItems
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <Pressable

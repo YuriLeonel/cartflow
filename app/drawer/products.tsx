@@ -108,7 +108,8 @@ export default function ProductsScreen() {
     Alert.alert(product.name, undefined, [
       {
         text: t('common.edit'),
-        onPress: () => router.push({ pathname: '/product-form', params: { productId: product.id } }),
+        onPress: () =>
+          router.push({ pathname: '/product-form', params: { productId: product.id } }),
       },
       {
         text: t('common.delete'),
@@ -116,7 +117,11 @@ export default function ProductsScreen() {
         onPress: () => {
           Alert.alert(t('products.deleteConfirmTitle'), t('products.deleteConfirmMessage'), [
             { text: t('common.cancel'), style: 'cancel' },
-            { text: t('common.delete'), style: 'destructive', onPress: () => removeProduct(product.id) },
+            {
+              text: t('common.delete'),
+              style: 'destructive',
+              onPress: () => removeProduct(product.id),
+            },
           ]);
         },
       },
@@ -166,6 +171,7 @@ export default function ProductsScreen() {
         <LegendList
           data={sections}
           estimatedItemSize={64}
+          recycleItems
           keyExtractor={(item) => (item.type === 'category' ? `cat-${item.category}` : item.id)}
           stickyHeaderIndices={stickyIndices}
           renderItem={({ item }) => (

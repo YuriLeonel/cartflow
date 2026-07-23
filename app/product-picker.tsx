@@ -174,6 +174,7 @@ export default function ProductPickerScreen() {
         <LegendList
           data={sections}
           estimatedItemSize={64}
+          recycleItems
           keyExtractor={(item) => (item.type === 'category' ? `cat-${item.category}` : item.id)}
           stickyHeaderIndices={stickyIndices}
           renderItem={({ item }) => <PickerListItem item={item} onSelect={handleSelectProduct} />}

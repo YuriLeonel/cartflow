@@ -87,7 +87,9 @@ export default function ProductFormScreen() {
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
     >
       <View style={[styles.content, { paddingTop: insets.top + spacing.lg }]}>
-        <Text style={styles.title}>{isEditMode ? t('products.editProduct') : t('products.newProduct')}</Text>
+        <Text style={styles.title}>
+          {isEditMode ? t('products.editProduct') : t('products.newProduct')}
+        </Text>
 
         <View style={styles.field}>
           <Text style={styles.label}>{t('products.nameLabel')}</Text>
