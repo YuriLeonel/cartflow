@@ -1,15 +1,21 @@
 import { render } from '@testing-library/react-native';
 import type React from 'react';
-import HomeScreen from '../index';
+import MainShoppingList from '../index';
 
 const mockCarts: Array<{
   id: string;
   name: string;
-  items: Array<{ productId: string; quantity: number }>;
+  items: Array<{ productId: string; quantity: number; inCart: boolean }>;
   createdAt: string;
   updatedAt: string;
 }> = [];
-const mockAddCart = jest.fn();
+let mockActiveCartId: string | null = null;
+const mockSetActiveCart = jest.fn((id: string | null) => {
+  mockActiveCartId = id;
+});
+const mockToggleInCart = jest.fn();
+const mockUpdateQuantity = jest.fn();
+const mockRemoveItem = jest.fn();
 
 jest.mock('react-i18next', () => ({
   useTranslation: () => ({ t: (key: string) => key }),
@@ -32,50 +38,111 @@ jest.mock('expo-router', () => ({
   useRouter: () => ({ push: jest.fn(), back: jest.fn() }),
 }));
 
-jest.mock('@/stores/useCartStore', () => ({
-  useCartStore: (
-    selector: (state: { carts: typeof mockCarts; addCart: typeof mockAddCart }) => unknown,
-  ) => selector({ carts: mockCarts, addCart: mockAddCart }),
+jest.mock('@react-navigation/drawer', () => ({
+  useDrawerStatus: () => 'closed',
 }));
 
-describe('HomeScreen', () => {
+jest.mock('@legendapp/list/react-native', () => {
+  const ReactMock = require('react');
+  return {
+    LegendList: ({
+      data,
+      renderItem,
+      keyExtractor,
+    }: {
+      data: unknown[];
+      renderItem: (info: { item: unknown }) => React.ReactNode;
+      keyExtractor: (item: unknown) => string;
+    }) => {
+      return ReactMock.createElement(
+        'LegendList-mock',
+        null,
+        data.map((item: unknown) =>
+          ReactMock.createElement(renderItem, { item, key: keyExtractor(item) }),
+        ),
+      );
+    },
+  };
+});
+
+jest.mock('@/stores/useCartStore', () => ({
+  useCartStore: (
+    selector: (state: {
+      carts: typeof mockCarts;
+      activeCartId: string | null;
+      setActiveCart: typeof mockSetActiveCart;
+      toggleInCart: typeof mockToggleInCart;
+      updateQuantity: typeof mockUpdateQuantity;
+      removeItem: typeof mockRemoveItem;
+    }) => unknown,
+  ) =>
+    selector({
+      carts: mockCarts,
+      activeCartId: mockActiveCartId,
+      setActiveCart: mockSetActiveCart,
+      toggleInCart: mockToggleInCart,
+      updateQuantity: mockUpdateQuantity,
+      removeItem: mockRemoveItem,
+    }),
+}));
+
+jest.mock('@/stores/useProductStore', () => ({
+  useProductStore: (selector: (state: { products: unknown[] }) => unknown) =>
+    selector({ products: [] }),
+}));
+
+jest.mock('@/components/shopping-list/ListSelector', () => {
+  const ReactMock = require('react');
+  return {
+    ListSelector: () => ReactMock.createElement('ListSelector-mock'),
+  };
+});
+
+describe('MainShoppingList', () => {
   beforeEach(() => {
     mockCarts.length = 0;
-    mockAddCart.mockClear();
+    mockActiveCartId = null;
+    mockSetActiveCart.mockClear();
+    mockToggleInCart.mockClear();
+    mockUpdateQuantity.mockClear();
+    mockRemoveItem.mockClear();
   });
 
-  it('renders title, subtitle, button, and section', async () => {
-    const { getByText } = await render(<HomeScreen />);
-    expect(getByText('home.title')).toBeTruthy();
-    expect(getByText('home.subtitle')).toBeTruthy();
-    expect(getByText('home.newCart')).toBeTruthy();
-    expect(getByText('home.myCarts')).toBeTruthy();
+  it('shows empty state when no active cart', async () => {
+    const { getByText } = await render(<MainShoppingList />);
+    expect(getByText('list.empty.noList')).toBeTruthy();
   });
 
-  it('shows empty state when no carts', async () => {
-    const { getByText } = await render(<HomeScreen />);
-    expect(getByText('home.emptyState')).toBeTruthy();
+  it('shows header with select list prompt when no active cart', async () => {
+    const { getByText } = await render(<MainShoppingList />);
+    expect(getByText('list.header.selectList')).toBeTruthy();
   });
 
-  it('shows recent carts when they exist', async () => {
-    mockCarts.push(
-      {
-        id: 'c1',
-        name: 'Lista 1',
-        items: [{ productId: 'p1', quantity: 1 }],
-        createdAt: '',
-        updatedAt: '',
-      },
-      { id: 'c2', name: 'Lista 2', items: [], createdAt: '', updatedAt: '' },
-    );
+  it('shows empty list state when active cart has no items', async () => {
+    mockCarts.push({
+      id: 'c1',
+      name: 'Lista 1',
+      items: [],
+      createdAt: '',
+      updatedAt: '',
+    });
+    mockActiveCartId = 'c1';
 
-    const { getByText } = await render(<HomeScreen />);
-    expect(getByText('Lista 1')).toBeTruthy();
-    expect(getByText('Lista 2')).toBeTruthy();
+    const { getByText } = await render(<MainShoppingList />);
+    expect(getByText('list.empty.noItems')).toBeTruthy();
   });
 
-  it('renders new cart button', async () => {
-    const { getByLabelText } = await render(<HomeScreen />);
-    expect(getByLabelText('home.newCartA11y')).toBeTruthy();
+  it('shows list name when active cart exists', async () => {
+    mockCarts.push({
+      id: 'c1',
+      name: 'Compras do mês',
+      items: [],
+      createdAt: '',
+      updatedAt: '',
+    });
+    mockActiveCartId = 'c1';
+
+    const { getByText } = await render(<MainShoppingList />);
+    expect(getByText('Compras do mês')).toBeTruthy();
   });
 });
