@@ -12,9 +12,7 @@
       "signal": "surviving_mutant",
       "scope": "app/(tabs)/__tests__/TabLayout.test.tsx",
       "status": "candidate",
-      "features": [
-        "fase-1-navegacao"
-      ],
+      "features": ["fase-1-navegacao"],
       "recurrence": 1,
       "harmful": 0,
       "evidence": [
@@ -30,14 +28,10 @@
       "signal": "ac_gap",
       "scope": "app/(tabs)/__tests__/",
       "status": "candidate",
-      "features": [
-        "fase-1-navegacao"
-      ],
+      "features": ["fase-1-navegacao"],
       "recurrence": 1,
       "harmful": 0,
-      "evidence": [
-        "NAV-01, NAV-02, NAV-03, NAV-04 (app/(tabs)/__tests__/)"
-      ],
+      "evidence": ["NAV-01, NAV-02, NAV-03, NAV-04 (app/(tabs)/__tests__/)"],
       "created": "2026-07-06T23:37:42Z",
       "last_seen": "2026-07-06T23:37:42Z"
     },
@@ -48,14 +42,10 @@
       "signal": "surviving_mutant",
       "scope": "navigation testing",
       "status": "candidate",
-      "features": [
-        "fase-1-navegacao"
-      ],
+      "features": ["fase-1-navegacao"],
       "recurrence": 1,
       "harmful": 0,
-      "evidence": [
-        "validation.md: Discrimination Sensor Mutation 1 (navigation testing)"
-      ],
+      "evidence": ["validation.md: Discrimination Sensor Mutation 1 (navigation testing)"],
       "created": "2026-07-06T23:44:08Z",
       "last_seen": "2026-07-06T23:44:08Z"
     },
@@ -66,14 +56,10 @@
       "signal": "ac_gap",
       "scope": "orchestration",
       "status": "candidate",
-      "features": [
-        "loop-orchestrator"
-      ],
+      "features": ["loop-orchestrator"],
       "recurrence": 1,
       "harmful": 0,
-      "evidence": [
-        "AGENTS.md:loop-orchestrator (orchestration)"
-      ],
+      "evidence": ["AGENTS.md:loop-orchestrator (orchestration)"],
       "created": "2026-07-23T00:50:52Z",
       "last_seen": "2026-07-23T00:50:52Z"
     }
