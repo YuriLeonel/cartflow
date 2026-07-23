@@ -13,10 +13,10 @@ _This file is managed by the Loop Orchestrator. Do not edit status fields manual
 | 2 | Product Catalog — Search, Categories, CRUD | completed | Phase 1 | 2026-07-08 | 2026-07-10 |
 | 3 | Shopping Lists — Cart Management | completed | Phase 1, 2 | 2026-07-22 | 2026-07-22 |
 | 4 | Pricing & Comparison — Expected vs Current | completed | Phase 3 | 2026-07-22 | 2026-07-22 |
-| R1 | Navigation Refactor — Tabs to Drawer + Data Model | pending | Phase 4 | — | — |
-| R2 | List UI — Header, Footer, Item Rows, Sections | pending | R1 | — | — |
-| R3 | Drawer Screens — Lists CRUD + Products CRUD | pending | R1 | — | — |
-| R4 | Polish — Warning Fixes + Final QA | pending | R2, R3 | — | — |
+| R1 | Navigation Refactor — Tabs to Drawer + Data Model | completed | Phase 4 | 2026-07-22 | 2026-07-22 |
+| R2 | List UI — Header, Footer, Item Rows, Sections | completed | R1 | 2026-07-22 | 2026-07-22 |
+| R3 | Drawer Screens — Lists CRUD + Products CRUD | completed | R1 | 2026-07-22 | 2026-07-22 |
+| R4 | Polish — Warning Fixes + Final QA | completed | R2, R3 | 2026-07-22 | 2026-07-22 |
 
 ---
 
@@ -255,7 +255,7 @@ app/
 
 ## Phase R2: List UI — Header, Footer, Item Rows, Sections
 
-**Status:** `pending`
+**Status:** `completed`
 **Complexity:** High
 **Estimated scope:** <15 tasks
 **Depends on:** R1
@@ -386,7 +386,7 @@ Product edit       → opens form with pre-filled data
 
 ## Phase R4: Polish — Warning Fixes + Final QA
 
-**Status:** `pending`
+**Status:** `completed`
 **Complexity:** Low
 **Estimated scope:** <8 tasks
 **Depends on:** R2, R3
@@ -397,14 +397,14 @@ Fix all console warnings, clean up unused code, ensure full test coverage, and r
 
 ### Deliverables
 
-- [ ] Install and configure `@formatjs/intl-pluralrules` polyfill for i18n
-- [ ] Fix LegendList warnings — add `recycleItems={true}` and tune `estimatedItemSize` across all screens
-- [ ] Remove unused `CartSummary` type (vestigial from migration)
-- [ ] Remove unused `Product.barcode` field (or keep if future scanning planned — document decision)
-- [ ] Remove unused `handleCreate` function in old lists.tsx (iOS-only Alert.prompt path)
-- [ ] Clean up any dead code from the tabs → drawer migration
-- [ ] Run full harness: lint + typecheck + tests
-- [ ] Final manual QA checklist — all screens, all flows, both platforms
+- [x] Install and configure `@formatjs/intl-pluralrules` polyfill for i18n
+- [x] Fix LegendList warnings — add `recycleItems={true}` and tune `estimatedItemSize` across all screens
+- [x] Remove unused `CartSummary` type (vestigial from migration)
+- [x] Remove unused `Product.barcode` field (or keep if future scanning planned — document decision)
+- [x] Remove unused `handleCreate` function in old lists.tsx (iOS-only Alert.prompt path)
+- [x] Clean up any dead code from the tabs → drawer migration
+- [x] Run full harness: lint + typecheck + tests
+- [x] Final manual QA checklist — all screens, all flows, both platforms
 
 ### Acceptance Criteria
 
