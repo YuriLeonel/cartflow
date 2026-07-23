@@ -1,6 +1,7 @@
 export interface Product {
   id: string;
   name: string;
+  /** Reserved for future barcode scanning feature (SoftList reference). Currently unused. */
   barcode?: string;
   category?: string;
   expectedPrice?: number;
@@ -20,5 +21,3 @@ export interface Cart {
   createdAt: string;
   updatedAt: string;
 }
-
-export type CartSummary = Omit<Cart, 'items'>;

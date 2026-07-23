@@ -2,7 +2,7 @@ import { randomUUID } from 'expo-crypto';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 import { zustandMMKVStorage } from '../lib/storage';
-import type { Cart, CartItem, CartSummary } from '../types';
+import type { Cart, CartItem } from '../types';
 
 export const validateCartName = (name: string): string | null => {
   const trimmed = name.trim();
@@ -160,7 +160,12 @@ export const useCartStore = create<CartStore>()(
           activeCartId?: string | null;
         };
         if (version === 0 || version === 1) {
-          const oldCarts = (state?.carts ?? []) as CartSummary[];
+          const oldCarts = (state?.carts ?? []) as Array<{
+            id: string;
+            name: string;
+            createdAt: string;
+            updatedAt: string;
+          }>;
           return {
             ...state,
             carts: oldCarts.map((c) => ({

@@ -4,9 +4,15 @@ import ProductFormScreen from '../product-form';
 
 const mockBack = jest.fn();
 const mockAddProduct = jest.fn();
+const mockUpdateProduct = jest.fn();
+const mockProducts: Array<{ id: string; name: string; category?: string; expectedPrice?: number }> =
+  [];
+
+let mockSearchParams: Record<string, string | undefined> = {};
 
 jest.mock('expo-router', () => ({
   useRouter: () => ({ back: mockBack }),
+  useLocalSearchParams: () => mockSearchParams,
 }));
 
 jest.mock('react-i18next', () => ({
@@ -20,15 +26,25 @@ jest.mock('react-native-safe-area-context', () => ({
 }));
 
 jest.mock('@/stores/useProductStore', () => ({
-  useProductStore: (selector: (state: { addProduct: typeof mockAddProduct }) => unknown) =>
-    selector({ addProduct: mockAddProduct }),
+  useProductStore: (
+    selector: (state: {
+      addProduct: typeof mockAddProduct;
+      updateProduct: typeof mockUpdateProduct;
+      products: typeof mockProducts;
+    }) => unknown,
+  ) =>
+    selector({
+      addProduct: mockAddProduct,
+      updateProduct: mockUpdateProduct,
+      products: mockProducts,
+    }),
 }));
 
 jest.mock('react-native/Libraries/Components/Keyboard/KeyboardAvoidingView', () => {
-  const React = require('react');
+  const ReactMock = require('react');
   return {
     __esModule: true,
-    default: ({ children }) => React.createElement('KeyboardAvoidingView-mock', null, children),
+    default: ({ children }) => ReactMock.createElement('KeyboardAvoidingView-mock', null, children),
   };
 });
 
@@ -37,6 +53,9 @@ describe('ProductFormScreen', () => {
     mockBack.mockClear();
     mockAddProduct.mockReset();
     mockAddProduct.mockReturnValue(null);
+    mockUpdateProduct.mockClear();
+    mockProducts.length = 0;
+    mockSearchParams = {};
   });
 
   it('renders all form fields', () => {
@@ -131,5 +150,53 @@ describe('ProductFormScreen', () => {
 
     expect(mockAddProduct).toHaveBeenCalled();
     expect(mockBack).not.toHaveBeenCalled();
+  });
+
+  describe('edit mode', () => {
+    beforeEach(() => {
+      mockProducts.push(
+        { id: 'p1', name: 'Arroz 1kg', category: 'Grãos', expectedPrice: 8.49 },
+        { id: 'p2', name: 'Banana', category: undefined, expectedPrice: undefined },
+      );
+    });
+
+    it('shows edit title when productId is provided', () => {
+      mockSearchParams = { productId: 'p1' };
+      const { getByText } = render(<ProductFormScreen />);
+      expect(getByText('products.editProduct')).toBeTruthy();
+    });
+
+    it('pre-fills form fields from existing product', () => {
+      mockSearchParams = { productId: 'p1' };
+      const { getByDisplayValue } = render(<ProductFormScreen />);
+      expect(getByDisplayValue('Arroz 1kg')).toBeTruthy();
+      expect(getByDisplayValue('Grãos')).toBeTruthy();
+      expect(getByDisplayValue('8.49')).toBeTruthy();
+    });
+
+    it('calls updateProduct on save in edit mode', () => {
+      mockSearchParams = { productId: 'p1' };
+      const { getByText, getByDisplayValue } = render(<ProductFormScreen />);
+      fireEvent.changeText(getByDisplayValue('Arroz 1kg'), 'Arroz 2kg');
+      fireEvent.press(getByText('common.save'));
+      expect(mockUpdateProduct).toHaveBeenCalledWith('p1', {
+        name: 'Arroz 2kg',
+        category: 'Grãos',
+        expectedPrice: 8.49,
+      });
+      expect(mockBack).toHaveBeenCalled();
+    });
+
+    it('does not call addProduct in edit mode', () => {
+      mockSearchParams = { productId: 'p1' };
+      const { getByText } = render(<ProductFormScreen />);
+      fireEvent.press(getByText('common.save'));
+      expect(mockAddProduct).not.toHaveBeenCalled();
+    });
+
+    it('shows create title when no productId', () => {
+      const { getByText } = render(<ProductFormScreen />);
+      expect(getByText('products.newProduct')).toBeTruthy();
+    });
   });
 });

@@ -324,6 +324,7 @@ export default function CartDetailScreen() {
             <LegendList
               data={cart.items}
               estimatedItemSize={80}
+              recycleItems
               keyExtractor={(item) => item.productId}
               renderItem={({ item }) => (
                 <CartItemRow

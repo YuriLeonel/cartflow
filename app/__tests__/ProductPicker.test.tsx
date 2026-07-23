@@ -40,7 +40,13 @@ jest.mock('@legendapp/list/react-native', () => {
       return ReactMock.createElement(
         'LegendList-mock',
         null,
-        data.map((item) => props.renderItem({ item })),
+        data.map((item, index) =>
+          ReactMock.createElement(
+            ReactMock.Fragment,
+            { key: props.keyExtractor ? props.keyExtractor(item, index) : String(index) },
+            props.renderItem({ item, index }),
+          ),
+        ),
       );
     },
   };
